@@ -1,6 +1,6 @@
 import Konva from "konva";
 import type { View } from "../../types.ts";
-import { STAGE_WIDTH } from "../../constants.ts";
+import { stageWidth } from "../../constants.ts";
 
 /**
  * MenuScreenView - Renders the menu screen
@@ -13,7 +13,7 @@ export class MenuScreenView implements View {
 
 		// Title text
 		const title = new Konva.Text({
-			x: STAGE_WIDTH / 2,
+			x: stageWidth / 2,
 			y: 150,
 			text: "LEMON CLICKER",
 			fontSize: 48,
@@ -29,7 +29,7 @@ export class MenuScreenView implements View {
 
 		const startButtonGroup = new Konva.Group();
 		const startButton = new Konva.Rect({
-			x: STAGE_WIDTH / 2 - 100,
+			x: stageWidth / 2 - 100,
 			y: 300,
 			width: 200,
 			height: 60,
@@ -39,7 +39,7 @@ export class MenuScreenView implements View {
 			strokeWidth: 3,
 		});
 		const startText = new Konva.Text({
-			x: STAGE_WIDTH / 2,
+			x: stageWidth / 2,
 			y: 315,
 			text: "START GAME",
 			fontSize: 24,
