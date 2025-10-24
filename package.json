@@ -1,0 +1,17 @@
+{
+  "name": "cse-110-project-team-5",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12",
+    "vitest": "^4.0.3"
+  },
+  "dependencies": {
+    "konva": "^10.0.8"
+  }
+}
