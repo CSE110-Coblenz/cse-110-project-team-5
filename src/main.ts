@@ -1,8 +1,8 @@
-import Konva from "konva";
-import type { ScreenSwitcher, Screen } from "./types.ts";
-import { MenuScreenController } from "./screens/MenuScreen/MenuScreenController.ts";
-import { GameScreenController } from "./screens/GameScreen/GameScreenController.ts";
-import { stageWidth, stageHeight } from "./constants.ts";
+import Konva from 'konva';
+import type {ScreenSwitcher, Screen} from './types.ts';
+import {MenuScreenController} from './screens/menu-screen/menu-screen-controller.ts';
+import {GameScreenController} from './screens/game-screen/game-screen-controller.ts';
+import {stageWidth, stageHeight} from './constants.ts';
 
 /**
  * Main Application - Coordinates all screens
@@ -15,11 +15,11 @@ import { stageWidth, stageHeight } from "./constants.ts";
  * visible at a time. This is managed by the switchToScreen() method.
  */
 class App implements ScreenSwitcher {
-	private stage: Konva.Stage;
-	private layer: Konva.Layer;
+	private readonly stage: Konva.Stage;
+	private readonly layer: Konva.Layer;
 
-	private menuController: MenuScreenController;
-	private gameController: GameScreenController;
+	private readonly menuController: MenuScreenController;
+	private readonly gameController: GameScreenController;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -45,8 +45,9 @@ class App implements ScreenSwitcher {
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();
+	}
 
-		// Start with menu screen visible
+	start(): void {
 		this.menuController.getView().show();
 	}
 
@@ -66,17 +67,20 @@ class App implements ScreenSwitcher {
 
 		// Show the requested screen based on the screen type
 		switch (screen.type) {
-			case "menu":
+			case 'menu': {
 				this.menuController.show();
 				break;
+			}
 
-			case "game":
+			case 'game': {
 				// Start the game (which also shows the game screen)
 				this.gameController.startGame();
 				break;
+			}
 		}
 	}
 }
 
 // Initialize the application
-new App("container");
+const app = new App('container');
+app.start();

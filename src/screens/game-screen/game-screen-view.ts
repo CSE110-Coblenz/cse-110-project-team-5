@@ -1,18 +1,18 @@
-import Konva from "konva";
-import type { View } from "../../types.ts";
-import { stageWidth, stageHeight } from "../../constants.ts";
+import Konva from 'konva';
+import type {View} from '../../types.ts';
+import {stageWidth, stageHeight} from '../../constants.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
  */
 export class GameScreenView implements View {
-	private group: Konva.Group;
-	private lemonImage: Konva.Image | Konva.Circle | null = null;
-	private scoreText: Konva.Text;
-	private timerText: Konva.Text;
+	private readonly group: Konva.Group;
+	private lemonImage: Konva.Image | Konva.Circle | undefined = undefined;
+	private readonly scoreText: Konva.Text;
+	private readonly timerText: Konva.Text;
 
 	constructor(onLemonClick: () => void) {
-		this.group = new Konva.Group({ visible: false });
+		this.group = new Konva.Group({visible: false});
 
 		// Background
 		const bg = new Konva.Rect({
@@ -20,7 +20,7 @@ export class GameScreenView implements View {
 			y: 0,
 			width: stageWidth,
 			height: stageHeight,
-			fill: "#87CEEB", // Sky blue
+			fill: '#87CEEB', // Sky blue
 		});
 		this.group.add(bg);
 
@@ -28,10 +28,10 @@ export class GameScreenView implements View {
 		this.scoreText = new Konva.Text({
 			x: 20,
 			y: 20,
-			text: "Score: 0",
+			text: 'Score: 0',
 			fontSize: 32,
-			fontFamily: "Arial",
-			fill: "black",
+			fontFamily: 'Arial',
+			fill: 'black',
 		});
 		this.group.add(this.scoreText);
 
@@ -39,21 +39,21 @@ export class GameScreenView implements View {
 		this.timerText = new Konva.Text({
 			x: stageWidth - 150,
 			y: 20,
-			text: "Time: 60",
+			text: 'Time: 60',
 			fontSize: 32,
-			fontFamily: "Arial",
-			fill: "red",
+			fontFamily: 'Arial',
+			fill: 'red',
 		});
 		this.group.add(this.timerText);
 
-		Konva.Image.fromURL("/lemon.png", (image) => {
+		Konva.Image.fromURL('/lemon.png', (image) => {
 			image.setPosition({
 				x: stageWidth / 2,
 				y: stageHeight / 2,
 			});
 			image.offsetX(image.width() / 2);
 			image.offsetY(image.height() / 2);
-			image.on("click", onLemonClick);
+			image.on('click', onLemonClick);
 			this.lemonImage = image;
 			this.group.add(this.lemonImage);
 		});
