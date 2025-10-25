@@ -7,11 +7,10 @@ import {stageWidth, stageHeight} from '../../constants.ts';
  */
 export class GameScreenView implements View {
 	private readonly group: Konva.Group;
-	private lemonImage: Konva.Image | Konva.Circle | undefined = undefined;
 	private readonly scoreText: Konva.Text;
 	private readonly timerText: Konva.Text;
 
-	constructor(onLemonClick: () => void) {
+	constructor() {
 		this.group = new Konva.Group({visible: false});
 
 		// Background
@@ -20,43 +19,64 @@ export class GameScreenView implements View {
 			y: 0,
 			width: stageWidth,
 			height: stageHeight,
-			fill: '#87CEEB', // Sky blue
+			fill: '#6B8E23', // Grass green
 		});
 		this.group.add(bg);
 
-		// Score display (top-left)
-		this.scoreText = new Konva.Text({
-			x: 20,
-			y: 20,
-			text: 'Score: 0',
-			fontSize: 32,
-			fontFamily: 'Arial',
-			fill: 'black',
-		});
-		this.group.add(this.scoreText);
+		// Path Points to match reference design
+		const pathPoints = [
+			0, stageHeight * 0.27,
+			stageWidth * 0.2, stageHeight * 0.27,
+			stageWidth * 0.2, stageHeight * 0.43,
+			stageWidth * 0.08, stageHeight * 0.43,
+			stageWidth * 0.08, stageHeight * 0.8,
+			stageWidth * 0.33, stageHeight * 0.8,
+			stageWidth * 0.33, stageHeight * 0.27,
+			stageWidth * 0.73, stageHeight * 0.27,
+			stageWidth * 0.73, stageHeight * 0.43,
+			stageWidth * 0.47, stageHeight * 0.43,
+			stageWidth * 0.47, stageHeight * 0.73,
+			stageWidth * 0.82, stageHeight * 0.73,
+		];
 
-		// Timer display (top-right)
-		this.timerText = new Konva.Text({
-			x: stageWidth - 150,
-			y: 20,
-			text: 'Time: 60',
-			fontSize: 32,
-			fontFamily: 'Arial',
-			fill: 'red',
+		const path = new Konva.Line({
+			points: pathPoints,
+			stroke: '#8C8C8C',
+			strokeWidth: 28,
+			lineCap: 'square',
+			lineJoin: 'miter',
 		});
-		this.group.add(this.timerText);
+		this.group.add(path);
 
-		Konva.Image.fromURL('/lemon.png', (image) => {
-			image.setPosition({
-				x: stageWidth / 2,
-				y: stageHeight / 2,
-			});
-			image.offsetX(image.width() / 2);
-			image.offsetY(image.height() / 2);
-			image.on('click', onLemonClick);
-			this.lemonImage = image;
-			this.group.add(this.lemonImage);
+		// Bar For Round, Health indicator and Question
+		const topBar = new Konva.Rect({
+			x: 0,
+			y: 0,
+			width: stageWidth,
+			height: stageHeight * 0.1,
+			fill: '#143F09',
 		});
+
+		this.group.add(topBar);
+
+		// Bar For Towers/Potion
+		const sideBar = new Konva.Rect({
+			x: stageWidth * 0.82,
+			y: 0,
+			width: stageWidth * 0.18,
+			height: stageHeight,
+			fill: '#8B6A3E',
+		});
+		this.group.add(sideBar);
+
+		const answerBar = new Konva.Rect({
+			x: 0,
+			y: stageHeight * 0.9,
+			width: stageWidth * 0.82,
+			height: stageHeight * 0.1,
+			fill: '#143F09',
+		});
+		this.group.add(answerBar);
 	}
 
 	/**

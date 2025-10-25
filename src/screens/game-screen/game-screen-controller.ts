@@ -16,12 +16,13 @@ export class GameScreenController extends ScreenController {
 
 		this.model = new GameScreenModel();
 		this.view = new GameScreenView(() => {
-			this.screenSwitcher.switchToScreen({type: 'menu'});
+			this.screenSwitcher.switchToScreen({type: 'game'});
 		});
 	}
 
 	startGame(): void {
 		this.model.reset();
+		this.view.show();
 	}
 
 	/**
