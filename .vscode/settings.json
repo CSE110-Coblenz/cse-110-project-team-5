@@ -1,0 +1,7 @@
+{
+	"editor.formatOnSave": false,
+	"xo.format.enable": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit"
+	}
+}
