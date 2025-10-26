@@ -48,16 +48,26 @@ export class GameScreenView implements View {
 		});
 		this.group.add(path);
 
-		// Bar For Round, Health indicator and Question
-		const topBar = new Konva.Rect({
-			x: 0,
-			y: 0,
-			width: stageWidth,
-			height: stageHeight * 0.1,
+		// Bar For Round, Health indicator
+		const topLeftBar = new Konva.Rect({
+			x: stageWidth * 0.01,
+			y: stageHeight * 0.043,
+			width: 201.5,
+			height: 30,
 			fill: '#143F09',
 		});
 
-		this.group.add(topBar);
+		this.group.add(topLeftBar);
+
+		const topRightBar = new Konva.Rect({
+			x: stageWidth * 0.275,
+			y: stageHeight * 0.043,
+			width: 400,
+			height: 30,
+			fill: 'white',
+		});
+
+		this.group.add(topRightBar);
 
 		// Bar For Towers/Potion
 		const sideBar = new Konva.Rect({
@@ -70,13 +80,72 @@ export class GameScreenView implements View {
 		this.group.add(sideBar);
 
 		const answerBar = new Konva.Rect({
-			x: 0,
-			y: stageHeight * 0.9,
-			width: stageWidth * 0.82,
-			height: stageHeight * 0.1,
-			fill: '#143F09',
+			x: stageWidth * 0.0145,
+			y: stageHeight * 0.91,
+			width: stageWidth * 0.792,
+			height: 28,
+			fill: 'white',
 		});
 		this.group.add(answerBar);
+
+		const towerHeader = new Konva.Rect({
+			x: stageWidth * 0.84,
+			y: stageHeight * 0.03,
+			width: stageWidth * 0.14,
+			height: stageHeight * 0.055,
+			fill: '#C49A6C',
+		});
+		this.group.add(towerHeader);
+
+		const roundIndicator = new Konva.Text({
+			x: stageWidth * 0.02,
+			y: stageHeight * 0.048,
+			text: 'Round: 1',
+			fontSize: 24,
+			fontFamily: 'Jersey 10',
+			fill: 'white',
+		});
+		this.group.add(roundIndicator);
+
+		const healthIndicator = new Konva.Text({
+			x: stageWidth * 0.13,
+			y: stageHeight * 0.048,
+			text: 'Health: 100',
+			fontSize: 24,
+			fontFamily: 'Jersey 10',
+			fill: 'white',
+		});
+		this.group.add(healthIndicator);
+
+		const questionPrompt = new Konva.Text({
+			x: stageWidth * 0.283,
+			y: stageHeight * 0.049,
+			text: 'What is x equal to?                               4x-4 = 0',
+			fontSize: 24,
+			fontFamily: 'Jersey 10',
+			fill: 'black',
+		});
+		this.group.add(questionPrompt);
+
+		const answer = new Konva.Text({
+			x: stageWidth * 0.02,
+			y: stageHeight * 0.915,
+			text: 'x = ',
+			fontSize: 24,
+			fontFamily: 'Jersey 10',
+			fill: 'black',
+		});
+		this.group.add(answer);
+
+		const towerHeaderText = new Konva.Text({
+			x: stageWidth * 0.881,
+			y: stageHeight * 0.035,
+			text: 'Tower',
+			fontSize: 24,
+			fontFamily: 'Jersey 10',
+			fill: 'black',
+		});
+		this.group.add(towerHeaderText);
 	}
 
 	/**
