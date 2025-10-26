@@ -8,7 +8,7 @@ import {stageWidth} from '../../constants.ts';
 export class MenuScreenView implements View {
 	private readonly group: Konva.Group;
 
-	constructor(onStartClick: () => void) {
+	constructor(onStartClick: () => void, onMinigameClick: () => void) {
 		this.group = new Konva.Group({visible: true});
 
 		// Title text
@@ -52,6 +52,33 @@ export class MenuScreenView implements View {
 		startButtonGroup.add(startText);
 		startButtonGroup.on('click', onStartClick);
 		this.group.add(startButtonGroup);
+
+		// Minigame button
+		const miniButtonGroup = new Konva.Group();
+		const miniButton = new Konva.Rect({
+			x: stageWidth / 2 - 100,
+			y: 380,
+			width: 200,
+			height: 60,
+			fill: '#3b82f6',
+			cornerRadius: 10,
+			stroke: '#1d4ed8',
+			strokeWidth: 3,
+		});
+		const miniText = new Konva.Text({
+			x: stageWidth / 2,
+			y: 395,
+			text: 'MINI GAME',
+			fontSize: 24,
+			fontFamily: 'Arial',
+			fill: 'white',
+			align: 'center',
+		});
+		miniText.offsetX(miniText.width() / 2);
+		miniButtonGroup.add(miniButton);
+		miniButtonGroup.add(miniText);
+		miniButtonGroup.on('click', onMinigameClick);
+		this.group.add(miniButtonGroup);
 	}
 
 	/**

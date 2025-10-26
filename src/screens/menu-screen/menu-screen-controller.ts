@@ -11,9 +11,14 @@ export class MenuScreenController extends ScreenController {
 	constructor(screenSwitcher: ScreenSwitcher) {
 		super();
 		this.screenSwitcher = screenSwitcher;
-		this.view = new MenuScreenView(() => {
-			this.handleStartClick();
-		});
+		this.view = new MenuScreenView(
+			() => {
+				this.handleStartClick();
+			},
+			() => {
+				this.handleMiniClick();
+			},
+		);
 	}
 
 	getView(): MenuScreenView {
@@ -25,5 +30,9 @@ export class MenuScreenController extends ScreenController {
 	 */
 	private handleStartClick(): void {
 		this.screenSwitcher.switchToScreen({type: 'game'});
+	}
+
+	private handleMiniClick(): void {
+		this.screenSwitcher.switchToScreen({type: 'minigame'});
 	}
 }
