@@ -7,8 +7,6 @@ import {stageWidth, stageHeight} from '../../constants.ts';
  */
 export class GameScreenView implements View {
 	private readonly group: Konva.Group;
-	private readonly scoreText: Konva.Text;
-	private readonly timerText: Konva.Text;
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -25,18 +23,30 @@ export class GameScreenView implements View {
 
 		// Path Points to match reference design
 		const pathPoints = [
-			0, stageHeight * 0.27,
-			stageWidth * 0.2, stageHeight * 0.27,
-			stageWidth * 0.2, stageHeight * 0.43,
-			stageWidth * 0.08, stageHeight * 0.43,
-			stageWidth * 0.08, stageHeight * 0.8,
-			stageWidth * 0.33, stageHeight * 0.8,
-			stageWidth * 0.33, stageHeight * 0.27,
-			stageWidth * 0.73, stageHeight * 0.27,
-			stageWidth * 0.73, stageHeight * 0.43,
-			stageWidth * 0.47, stageHeight * 0.43,
-			stageWidth * 0.47, stageHeight * 0.73,
-			stageWidth * 0.82, stageHeight * 0.73,
+			0,
+			stageHeight * 0.27,
+			stageWidth * 0.2,
+			stageHeight * 0.27,
+			stageWidth * 0.2,
+			stageHeight * 0.43,
+			stageWidth * 0.08,
+			stageHeight * 0.43,
+			stageWidth * 0.08,
+			stageHeight * 0.8,
+			stageWidth * 0.33,
+			stageHeight * 0.8,
+			stageWidth * 0.33,
+			stageHeight * 0.27,
+			stageWidth * 0.73,
+			stageHeight * 0.27,
+			stageWidth * 0.73,
+			stageHeight * 0.43,
+			stageWidth * 0.47,
+			stageHeight * 0.43,
+			stageWidth * 0.47,
+			stageHeight * 0.73,
+			stageWidth * 0.82,
+			stageHeight * 0.73,
 		];
 
 		const path = new Konva.Line({
@@ -147,49 +157,41 @@ export class GameScreenView implements View {
 		});
 		this.group.add(towerHeaderText);
 
-		const towerSpacing = stageHeight * 0.15
+		const towerSpacing = stageHeight * 0.15;
 		const towerY = stageHeight * 0.1;
 		const towerWidth = 117;
-		const towerHeight = 170;
-        const towerX = stageWidth * 0.88;
+		const towerHeight = 175;
+		const towerX = stageWidth * 0.88;
 
 		Konva.Image.fromURL('/tower.png', (img) => {
-            img.setAttrs({
-                x: towerX,
-                y: towerY,
-                width: towerWidth,
-                height: towerHeight,
-            });
-            this.group.add(img);
-        });
-
-		Konva.Image.fromURL('/tower2.png', (img) => {
-			img.setAttrs({
-				x: towerX,
-				y: towerY + towerSpacing,
-				width: towerWidth,
-				height: towerHeight,
-			});
+			img.x(towerX);
+			img.y(towerY);
+			img.width(towerWidth);
+			img.height(towerHeight);
 			this.group.add(img);
 		});
-		
+
+		Konva.Image.fromURL('/tower2.png', (img) => {
+			img.x(towerX);
+			img.y(towerY + towerSpacing);
+			img.width(towerWidth);
+			img.height(towerHeight);
+			this.group.add(img);
+		});
+
 		Konva.Image.fromURL('/tower3.png', (img) => {
-			img.setAttrs({
-				x: towerX,
-				y: towerY + 2 * towerSpacing,
-				width: towerWidth,
-				height: towerHeight,
-			});
+			img.x(towerX);
+			img.y(towerY + towerSpacing * 2);
+			img.width(towerWidth);
+			img.height(towerHeight);
 			this.group.add(img);
 		});
 
 		Konva.Image.fromURL('/tower4.png', (img) => {
-			img.setAttrs({
-				x: towerX,
-				y: towerY + 3 * towerSpacing,
-				width: towerWidth,
-				height: towerHeight,
-			});
+			img.x(towerX);
+			img.y(towerY + towerSpacing * 3);
+			img.width(towerWidth);
+			img.height(towerHeight);
 			this.group.add(img);
 		});
 	}
