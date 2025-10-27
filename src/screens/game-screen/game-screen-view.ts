@@ -146,6 +146,52 @@ export class GameScreenView implements View {
 			fill: 'black',
 		});
 		this.group.add(towerHeaderText);
+
+		const towerSpacing = stageHeight * 0.15
+		const towerY = stageHeight * 0.1;
+		const towerWidth = 55;
+		const towerHeight = 80;
+        const towerX = stageWidth * 0.88;
+
+		Konva.Image.fromURL('/tower.png', (img) => {
+            img.setAttrs({
+                x: towerX,
+                y: towerY,
+                width: towerWidth,
+                height: towerHeight,
+            });
+            this.group.add(img);
+        });
+
+		Konva.Image.fromURL('/tower2.png', (img) => {
+			img.setAttrs({
+				x: towerX,
+				y: towerY + towerSpacing,
+				width: towerWidth,
+				height: towerHeight,
+			});
+			this.group.add(img);
+		});
+		
+		Konva.Image.fromURL('/tower3.png', (img) => {
+			img.setAttrs({
+				x: towerX,
+				y: towerY + 2 * towerSpacing,
+				width: towerWidth,
+				height: towerHeight,
+			});
+			this.group.add(img);
+		});
+
+		Konva.Image.fromURL('/tower4.png', (img) => {
+			img.setAttrs({
+				x: towerX,
+				y: towerY + 3 * towerSpacing,
+				width: towerWidth,
+				height: towerHeight,
+			});
+			this.group.add(img);
+		});
 	}
 
 	/**
