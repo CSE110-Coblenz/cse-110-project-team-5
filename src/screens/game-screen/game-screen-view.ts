@@ -42,7 +42,7 @@ export class GameScreenView implements View {
 		const path = new Konva.Line({
 			points: pathPoints,
 			stroke: '#8C8C8C',
-			strokeWidth: 28,
+			strokeWidth: 42,
 			lineCap: 'square',
 			lineJoin: 'miter',
 		});
@@ -52,8 +52,8 @@ export class GameScreenView implements View {
 		const topLeftBar = new Konva.Rect({
 			x: stageWidth * 0.01,
 			y: stageHeight * 0.043,
-			width: 201.5,
-			height: 30,
+			width: 430,
+			height: 54,
 			fill: '#143F09',
 		});
 
@@ -62,8 +62,8 @@ export class GameScreenView implements View {
 		const topRightBar = new Konva.Rect({
 			x: stageWidth * 0.275,
 			y: stageHeight * 0.043,
-			width: 400,
-			height: 30,
+			width: 853.2,
+			height: 54,
 			fill: 'white',
 		});
 
@@ -83,7 +83,7 @@ export class GameScreenView implements View {
 			x: stageWidth * 0.0145,
 			y: stageHeight * 0.91,
 			width: stageWidth * 0.792,
-			height: 28,
+			height: 60,
 			fill: 'white',
 		});
 		this.group.add(answerBar);
@@ -101,7 +101,7 @@ export class GameScreenView implements View {
 			x: stageWidth * 0.02,
 			y: stageHeight * 0.048,
 			text: 'Round: 1',
-			fontSize: 24,
+			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'white',
 		});
@@ -109,9 +109,9 @@ export class GameScreenView implements View {
 
 		const healthIndicator = new Konva.Text({
 			x: stageWidth * 0.13,
-			y: stageHeight * 0.048,
+			y: stageHeight * 0.046,
 			text: 'Health: 100',
-			fontSize: 24,
+			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'white',
 		});
@@ -119,9 +119,9 @@ export class GameScreenView implements View {
 
 		const questionPrompt = new Konva.Text({
 			x: stageWidth * 0.283,
-			y: stageHeight * 0.049,
+			y: stageHeight * 0.047,
 			text: 'What is x equal to?                               4x-4 = 0',
-			fontSize: 24,
+			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
 		});
@@ -131,7 +131,7 @@ export class GameScreenView implements View {
 			x: stageWidth * 0.02,
 			y: stageHeight * 0.915,
 			text: 'x = ',
-			fontSize: 24,
+			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
 		});
@@ -141,7 +141,7 @@ export class GameScreenView implements View {
 			x: stageWidth * 0.881,
 			y: stageHeight * 0.035,
 			text: 'Tower',
-			fontSize: 24,
+			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
 		});
@@ -149,8 +149,8 @@ export class GameScreenView implements View {
 
 		const towerSpacing = stageHeight * 0.15
 		const towerY = stageHeight * 0.1;
-		const towerWidth = 55;
-		const towerHeight = 80;
+		const towerWidth = 117;
+		const towerHeight = 170;
         const towerX = stageWidth * 0.88;
 
 		Konva.Image.fromURL('/tower.png', (img) => {

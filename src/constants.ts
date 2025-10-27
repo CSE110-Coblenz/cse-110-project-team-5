@@ -1,3 +1,3 @@
 // Stage dimensions
-export const stageWidth = 900;
-export const stageHeight = 506;
+export const stageWidth = 1920;
+export const stageHeight = 1080;
