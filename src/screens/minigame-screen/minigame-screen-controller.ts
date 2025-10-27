@@ -36,5 +36,3 @@ export class MinigameScreenController extends ScreenController {
 		return this.view;
 	}
 }
-
-

@@ -20,8 +20,8 @@ class App implements ScreenSwitcher {
 	private readonly layer: Konva.Layer;
 
 	private readonly menuController: MenuScreenController;
-    private readonly gameController: GameScreenController;
-    private readonly minigameController: MinigameScreenController;
+	private readonly gameController: GameScreenController;
+	private readonly minigameController: MinigameScreenController;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -37,15 +37,15 @@ class App implements ScreenSwitcher {
 
 		// Initialize all screen controllers
 		// Each controller manages a Model, View, and handles user interactions
-        this.menuController = new MenuScreenController(this);
-        this.gameController = new GameScreenController(this);
-        this.minigameController = new MinigameScreenController(this);
+		this.menuController = new MenuScreenController(this);
+		this.gameController = new GameScreenController(this);
+		this.minigameController = new MinigameScreenController(this);
 
 		// Add all screen groups to the layer
 		// All screens exist simultaneously but only one is visible at a time
 		this.layer.add(this.menuController.getView().getGroup());
-        this.layer.add(this.gameController.getView().getGroup());
-        this.layer.add(this.minigameController.getView().getGroup());
+		this.layer.add(this.gameController.getView().getGroup());
+		this.layer.add(this.minigameController.getView().getGroup());
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();
@@ -67,8 +67,8 @@ class App implements ScreenSwitcher {
 	switchToScreen(screen: Screen): void {
 		// Hide all screens first by setting their Groups to invisible
 		this.menuController.hide();
-        this.gameController.hide();
-        this.minigameController.hide();
+		this.gameController.hide();
+		this.minigameController.hide();
 
 		// Show the requested screen based on the screen type
 		switch (screen.type) {
@@ -77,16 +77,16 @@ class App implements ScreenSwitcher {
 				break;
 			}
 
-            case 'game': {
+			case 'game': {
 				// Start the game (which also shows the game screen)
 				this.gameController.startGame();
 				break;
 			}
 
-            case 'minigame': {
-                this.minigameController.show();
-                break;
-            }
+			case 'minigame': {
+				this.minigameController.show();
+				break;
+			}
 		}
 	}
 }

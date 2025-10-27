@@ -21,7 +21,7 @@ export class MinigameScreenView implements View {
 		questionPrefix: string;
 		highlighted: string;
 		questionSuffix: string;
-		answers: {label: string; onClick: () => void; bg: string}[];
+		answers: Array<{label: string; onClick: () => void; bg: string}>;
 	}) {
 		this.group = new Konva.Group({visible: false});
 
@@ -36,9 +36,7 @@ export class MinigameScreenView implements View {
 		this.group.add(bg);
 
 		const jerseyFont = 'Jersey 10';
-		if ('fonts' in document) {
-			void (document as any).fonts.load('24px "Jersey 10"');
-		}
+		void document.fonts.load('24px "Jersey 10"');
 
 		// White banner for the question
 		const header = new Konva.Rect({
@@ -84,7 +82,7 @@ export class MinigameScreenView implements View {
 		this.group.add(suffixText);
 
 		const potionY = Math.round(stageHeight * 0.2);
-		const potionScale = 0.8; // make potions a bit smaller on larger canvases
+		const potionScale = 0.8; // Make potions a bit smaller on larger canvases
 		const spacing = 220;
 		const centerX = stageWidth / 2;
 		const leftStart = centerX - spacing;
@@ -132,13 +130,13 @@ export class MinigameScreenView implements View {
 		});
 
 		// If caller did not supply custom colors, use default palette
-		for (let i = 0; i < specs.length; i++) {
+		for (const [i, spec] of specs.entries()) {
 			if (!options.answers[i].bg) {
-				specs[i].background = palette[i % palette.length];
+				spec.background = palette[i % palette.length];
 			}
 		}
 
-		specs.forEach((spec) => {
+		for (const spec of specs) {
 			const btnGroup = new Konva.Group();
 			const rect = new Konva.Rect({
 				x: spec.position.x,
@@ -164,7 +162,7 @@ export class MinigameScreenView implements View {
 			btnGroup.add(txt);
 			btnGroup.on('click', spec.onClick);
 			this.group.add(btnGroup);
-		});
+		}
 	}
 
 	show(): void {
@@ -181,5 +179,3 @@ export class MinigameScreenView implements View {
 		return this.group;
 	}
 }
-
-
