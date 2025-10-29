@@ -122,9 +122,21 @@ export class MenuScreenView implements View {
 		};
 
 		const playBtn = makeButton('PLAY', startY, '#6E8E43', '#3E5B2C', onPlay);
-		const miniBtn = makeButton('MINI GAME', startY + buttonHeight + gap, '#D98B3B','#A65E17', onMiniGame,);
-		const helpBtn = makeButton('HELP', startY + 2 * (buttonHeight + gap), '#C7B0CF', '#8B6D99', onHelp,);
-		
+		const miniBtn = makeButton(
+			'MINI GAME',
+			startY + buttonHeight + gap,
+			'#D98B3B',
+			'#A65E17',
+			onMiniGame,
+		);
+		const helpBtn = makeButton(
+			'HELP',
+			startY + 2 * (buttonHeight + gap),
+			'#C7B0CF',
+			'#8B6D99',
+			onHelp,
+		);
+
 		this.group.add(playBtn, miniBtn, helpBtn);
 	}
 
