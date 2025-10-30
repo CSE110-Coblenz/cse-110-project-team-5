@@ -30,7 +30,7 @@ export class MenuScreenView implements View {
 		});
 
 		const img = new Image();
-		img.src = 'background.png';
+		img.src = '/images/main-menu/background.png';
 		img.addEventListener('load', () => {
 			bgTex.fillPatternImage(img);
 		});
