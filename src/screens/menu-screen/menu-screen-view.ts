@@ -1,97 +1,150 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
-import {stageWidth} from '../../constants.ts';
+import {stageWidth, stageHeight} from '../../constants.ts';
 
-/**
- * MenuScreenView - Renders the menu screen
- */
+type MenuCallbacks = {
+	onPlay: () => void;
+	onMiniGame: () => void;
+	onHelp: () => void;
+};
+
 export class MenuScreenView implements View {
 	private readonly group: Konva.Group;
 
-	constructor(onStartClick: () => void, onMinigameClick: () => void) {
+	constructor({onPlay, onMiniGame, onHelp}: MenuCallbacks) {
 		this.group = new Konva.Group({visible: true});
 
-		// Title text
-		const title = new Konva.Text({
-			x: stageWidth / 2,
-			y: 150,
-			text: 'LEMON CLICKER',
-			fontSize: 48,
-			fontFamily: 'Arial',
-			fill: 'yellow',
-			stroke: 'orange',
-			strokeWidth: 2,
-			align: 'center',
+		const bgBase = new Konva.Rect({
+			x: 0,
+			y: 0,
+			width: stageWidth,
+			height: stageHeight,
+			fill: '#F4E4BC',
 		});
-		// Center the text using offsetX
-		title.offsetX(title.width() / 2);
+
+		const bgTex = new Konva.Rect({
+			x: 0,
+			y: 0,
+			width: stageWidth,
+			height: stageHeight,
+		});
+
+		const img = new Image();
+		img.src = '/images/main-menu/background.png';
+		img.addEventListener('load', () => {
+			bgTex.fillPatternImage(img);
+		});
+
+		this.group.add(bgBase, bgTex);
+
+		const cx = stageWidth / 2;
+		const cy = 120;
+		const leftX = cx - 260;
+		const rightX = cx + 260;
+		const path = ` M ${leftX} ${cy + 50} Q ${cx} ${cy - 80} ${rightX} ${cy + 50}`;
+
+		const title = new Konva.TextPath({
+			x: 0,
+			y: 0,
+			text: 'GAME NAME',
+			data: path,
+			fontSize: 100,
+			fontFamily: `'Jersey 10', sans-serif`,
+			fill: '#5B2A12',
+			align: 'center',
+			listening: false,
+		});
+
 		this.group.add(title);
 
-		const startButtonGroup = new Konva.Group();
-		const startButton = new Konva.Rect({
-			x: stageWidth / 2 - 100,
-			y: 300,
-			width: 200,
-			height: 60,
-			fill: 'green',
-			cornerRadius: 10,
-			stroke: 'darkgreen',
-			strokeWidth: 3,
-		});
-		const startText = new Konva.Text({
-			x: stageWidth / 2,
-			y: 315,
-			text: 'START GAME',
-			fontSize: 24,
-			fontFamily: 'Arial',
-			fill: 'white',
-			align: 'center',
-		});
-		startText.offsetX(startText.width() / 2);
-		startButtonGroup.add(startButton);
-		startButtonGroup.add(startText);
-		startButtonGroup.on('click', onStartClick);
-		this.group.add(startButtonGroup);
+		const buttonWidth = 240;
+		const buttonHeight = 65;
+		const gap = 35;
+		const startY = 200;
 
-		// Minigame button
-		const miniButtonGroup = new Konva.Group();
-		const miniButton = new Konva.Rect({
-			x: stageWidth / 2 - 100,
-			y: 380,
-			width: 200,
-			height: 60,
-			fill: '#3b82f6',
-			cornerRadius: 10,
-			stroke: '#1d4ed8',
-			strokeWidth: 3,
-		});
-		const miniText = new Konva.Text({
-			x: stageWidth / 2,
-			y: 395,
-			text: 'MINI GAME',
-			fontSize: 24,
-			fontFamily: 'Arial',
-			fill: 'white',
-			align: 'center',
-		});
-		miniText.offsetX(miniText.width() / 2);
-		miniButtonGroup.add(miniButton);
-		miniButtonGroup.add(miniText);
-		miniButtonGroup.on('click', onMinigameClick);
-		this.group.add(miniButtonGroup);
+		const makeButton = (
+			label: string,
+			y: number,
+			fill: string,
+			stroke: string,
+			onClick: () => void,
+		) => {
+			const g = new Konva.Group({x: 0, y});
+
+			const rect = new Konva.Rect({
+				x: cx - buttonWidth / 2,
+				y: 0,
+				width: buttonWidth,
+				height: buttonHeight,
+				cornerRadius: 8,
+				fill,
+				stroke,
+				strokeWidth: 3,
+				shadowColor: 'rgba(0,0,0,0.3)',
+				shadowBlur: 8,
+				shadowOffset: {x: 0, y: 2},
+				shadowOpacity: 0.5,
+			});
+
+			const text = new Konva.Text({
+				x: cx,
+				y: buttonHeight / 2 - 14,
+				text: label,
+				fontSize: 28,
+				fontStyle: 'bold',
+				fontFamily: `'Jersey 10', sans-serif`,
+				fill: '#36150E',
+				align: 'center',
+			});
+
+			text.offsetX(text.width() / 2);
+
+			g.on('mouseenter', () => {
+				document.body.style.cursor = 'pointer';
+				g.getLayer()?.batchDraw();
+			});
+			g.on('mouseleave', () => {
+				document.body.style.cursor = 'default';
+				g.getLayer()?.batchDraw();
+			});
+			g.on('mousedown', () => {
+				rect.y(2);
+				g.getLayer()?.batchDraw();
+			});
+			g.on('mouseup', () => {
+				rect.y(0);
+				g.getLayer()?.batchDraw();
+				onClick();
+			});
+
+			g.add(rect, text);
+			return g;
+		};
+
+		const playBtn = makeButton('PLAY', startY, '#6E8E43', '#3E5B2C', onPlay);
+		const miniBtn = makeButton(
+			'MINI GAME',
+			startY + buttonHeight + gap,
+			'#D98B3B',
+			'#A65E17',
+			onMiniGame,
+		);
+		const helpBtn = makeButton(
+			'HELP',
+			startY + 2 * (buttonHeight + gap),
+			'#C7B0CF',
+			'#8B6D99',
+			onHelp,
+		);
+
+		this.group.add(playBtn, miniBtn, helpBtn);
 	}
 
-	/**
-	 * Show the screen
-	 */
 	show(): void {
 		this.group.visible(true);
 		this.group.getLayer()?.draw();
 	}
 
-	/**
-	 * Hide the screen
-	 */
 	hide(): void {
 		this.group.visible(false);
 		this.group.getLayer()?.draw();

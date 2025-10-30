@@ -14,21 +14,14 @@ export class MinigameScreenController extends ScreenController {
 		super();
 		this.switcher = switcher;
 		this.model = new MinigameScreenModel();
+		this.view = new MinigameScreenView();
 
-		const answers = this.model.getOptions().map((opt, idx) => ({
-			label: opt.label,
-			onClick: () => {
-				// For now, just go back to menu on any click; can add feedback later
-				this.switcher.switchToScreen({type: 'menu'});
-			},
-			bg: ['#6f8c1a', '#e39a3a', '#cfa6cf', '#b5c3d3'][idx % 4],
-		}));
-
-		this.view = new MinigameScreenView({
-			questionPrefix: this.model.getQuestionPrefix(),
-			highlighted: this.model.getHighlightedExpression(),
-			questionSuffix: this.model.getQuestionSuffix(),
-			answers,
+		const state = this.model.getState();
+		this.view.updateQuestion(state.question);
+		void this.view.updatePotions(state.potions);
+		this.view.updateAnswers(state.answers, () => {
+			// For now, just go back to menu on any click; can add feedback later
+			this.switcher.switchToScreen({type: 'menu'});
 		});
 	}
 
