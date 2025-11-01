@@ -96,7 +96,7 @@ export class GameScreenView implements View {
 			fill: '#143F09',
 		});
 
-		this.group.add(topLeftBar);	
+		this.group.add(topLeftBar);
 
 		const topRightBar = new Konva.Rect({
 			x: stageWidth * 0.275,
@@ -164,7 +164,7 @@ export class GameScreenView implements View {
 			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
-		});	
+		});
 		this.group.add(this.questionPrompt);
 
 		const answer = new Konva.Text({
