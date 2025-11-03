@@ -82,5 +82,6 @@ class App implements ScreenSwitcher {
 }
 
 // Initialize the application
+await document.fonts.load('24px "Jersey 10"');
 const app = new App('container');
 app.start();
