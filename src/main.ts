@@ -36,7 +36,7 @@ class App implements ScreenSwitcher {
 		// Initialize all screen controllers
 		// Each controller manages a Model, View, and handles user interactions
 		this.menuController = new MenuScreenController(this);
-		this.gameController = new GameScreenController(this);
+		this.gameController = new GameScreenController();
 
 		// Add all screen groups to the layer
 		// All screens exist simultaneously but only one is visible at a time
