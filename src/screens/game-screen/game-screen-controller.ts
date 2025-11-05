@@ -1,4 +1,4 @@
-import {ScreenController, type ScreenSwitcher} from '../../types.ts';
+import {ScreenController} from '../../types.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
 
@@ -8,20 +8,17 @@ import {GameScreenView} from './game-screen-view.ts';
 export class GameScreenController extends ScreenController {
 	private readonly model: GameScreenModel;
 	private readonly view: GameScreenView;
-	private readonly screenSwitcher: ScreenSwitcher;
 
-	constructor(screenSwitcher: ScreenSwitcher) {
+	constructor() {
 		super();
-		this.screenSwitcher = screenSwitcher;
 
 		this.model = new GameScreenModel();
-		this.view = new GameScreenView(() => {
-			this.screenSwitcher.switchToScreen({type: 'menu'});
-		});
+		this.view = new GameScreenView();
 	}
 
 	startGame(): void {
 		this.model.reset();
+		this.view.show();
 	}
 
 	/**

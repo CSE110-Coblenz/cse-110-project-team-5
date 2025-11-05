@@ -3,6 +3,7 @@ import type {ScreenSwitcher, Screen} from './types.ts';
 import {MenuScreenController} from './screens/menu-screen/menu-screen-controller.ts';
 import {GameScreenController} from './screens/game-screen/game-screen-controller.ts';
 import {stageWidth, stageHeight} from './constants.ts';
+import {MinigameScreenController} from './screens/minigame-screen/minigame-screen-controller.ts';
 
 /**
  * Main Application - Coordinates all screens
@@ -20,6 +21,7 @@ class App implements ScreenSwitcher {
 
 	private readonly menuController: MenuScreenController;
 	private readonly gameController: GameScreenController;
+	private readonly minigameController: MinigameScreenController;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -36,12 +38,14 @@ class App implements ScreenSwitcher {
 		// Initialize all screen controllers
 		// Each controller manages a Model, View, and handles user interactions
 		this.menuController = new MenuScreenController(this);
-		this.gameController = new GameScreenController(this);
+		this.gameController = new GameScreenController();
+		this.minigameController = new MinigameScreenController(this);
 
 		// Add all screen groups to the layer
 		// All screens exist simultaneously but only one is visible at a time
 		this.layer.add(this.menuController.getView().getGroup());
 		this.layer.add(this.gameController.getView().getGroup());
+		this.layer.add(this.minigameController.getView().getGroup());
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();
@@ -64,6 +68,7 @@ class App implements ScreenSwitcher {
 		// Hide all screens first by setting their Groups to invisible
 		this.menuController.hide();
 		this.gameController.hide();
+		this.minigameController.hide();
 
 		// Show the requested screen based on the screen type
 		switch (screen.type) {
@@ -77,10 +82,16 @@ class App implements ScreenSwitcher {
 				this.gameController.startGame();
 				break;
 			}
+
+			case 'minigame': {
+				this.minigameController.show();
+				break;
+			}
 		}
 	}
 }
 
 // Initialize the application
+await document.fonts.load('24px "Jersey 10"');
 const app = new App('container');
 app.start();
