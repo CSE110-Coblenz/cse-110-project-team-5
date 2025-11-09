@@ -2,26 +2,19 @@
  * GameScreenModel - Manages game state
  */
 export class GameScreenModel {
-	private score = 0;
+	private currentQuestion = "YOU SHOULDN'T SEE THIS";
+	private currentAnswer = -999;
 
-	/**
-	 * Reset game state for a new game
-	 */
-	reset(): void {
-		this.score = 0;
+	public setQuestionAndAnswer(question: string, answer: number): void {
+		this.currentQuestion = question;
+		this.currentAnswer = answer;
 	}
 
-	/**
-	 * Increment score when lemon is clicked
-	 */
-	incrementScore(): void {
-		this.score++;
+	public getQuestion(): string {
+		return this.currentQuestion;
 	}
 
-	/**
-	 * Get current score
-	 */
-	getScore(): number {
-		return this.score;
+	public getAnswer(): number {
+		return this.currentAnswer;
 	}
 }
