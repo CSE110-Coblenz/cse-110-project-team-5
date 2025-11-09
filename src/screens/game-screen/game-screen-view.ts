@@ -1,5 +1,4 @@
 import Konva from 'konva';
-import {KonvaNodeEvent} from 'konva/lib/types';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight} from '../../constants.ts';
 
@@ -11,7 +10,7 @@ export class GameScreenView implements View {
 	private roundIndicator!: Konva.Text;
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
-	private pathDefinition! = new Array<{x: number; y: number}>();
+	private pathDefinition = new Array<{x: number; y: number}>();
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
