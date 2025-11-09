@@ -1,4 +1,5 @@
 import Konva from 'konva';
+import {KonvaNodeEvent} from 'konva/lib/types';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight} from '../../constants.ts';
 
@@ -10,6 +11,7 @@ export class GameScreenView implements View {
 	private roundIndicator!: Konva.Text;
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
+	private pathDefinition! = new Array<{x: number; y: number}>();
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -36,6 +38,51 @@ export class GameScreenView implements View {
 		return this.group;
 	}
 
+	public spawnMonster(onMonsterReachEnd: () => void): void {
+		const startPoint = this.pathDefinition[0];
+
+		// Create monster as a red square
+		const monster = new Konva.Rect({
+			x: startPoint.x,
+			y: startPoint.y,
+			width: 30,
+			height: 30,
+			fill: 'red',
+			offsetX: 15,
+			offsetY: 15,
+		});
+
+		this.group.add(monster);
+
+		let index = 0;
+		const speed = 6;
+
+		// Function to move to the next point
+		const tweenOnFinish = () => {
+			index++;
+			if (index >= this.pathDefinition.length) {
+				monster.destroy();
+				onMonsterReachEnd();
+			} else {
+				const nextPoint = this.pathDefinition[index];
+
+				new Konva.Tween({
+					node: monster,
+					duration: speed,
+					x: nextPoint.x,
+					y: nextPoint.y,
+					onFinish: tweenOnFinish,
+				}).play();
+			}
+		};
+
+		tweenOnFinish();
+	}
+
+	public updateHealth(newHealth: number): void {
+		this.healthIndicator.text(`Health: ${newHealth}`);
+	}
+
 	private initializeView(): void {
 		this.createBackground();
 		this.createPath();
@@ -57,7 +104,7 @@ export class GameScreenView implements View {
 
 	private createPath(): void {
 		// Path Points to match reference design
-		const pathDefinition = [
+		this.pathDefinition = [
 			{x: 0, y: stageHeight * 0.27},
 			{x: stageWidth * 0.2, y: stageHeight * 0.27},
 			{x: stageWidth * 0.2, y: stageHeight * 0.43},
@@ -72,7 +119,7 @@ export class GameScreenView implements View {
 			{x: stageWidth * 0.82, y: stageHeight * 0.73},
 		];
 
-		const pathPointsFlat = pathDefinition.flatMap((point) => [
+		const pathPointsFlat = this.pathDefinition.flatMap((point) => [
 			point.x,
 			point.y,
 		]);
@@ -150,7 +197,7 @@ export class GameScreenView implements View {
 		this.healthIndicator = new Konva.Text({
 			x: stageWidth * 0.13,
 			y: stageHeight * 0.046,
-			text: 'Health: 100',
+			text: 'Health: ...',
 			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'white',

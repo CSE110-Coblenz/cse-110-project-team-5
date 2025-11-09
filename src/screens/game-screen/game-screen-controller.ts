@@ -19,6 +19,17 @@ export class GameScreenController extends ScreenController {
 	startGame(): void {
 		this.model.reset();
 		this.view.show();
+
+		const initialHealth = this.model.getHealth();
+
+		this.view.updateHealth(initialHealth);
+
+		// Maybe put loop here later for multiple monsters
+		this.view.spawnMonster(() => {
+			this.model.decreaseHealth(10);
+			const currentHealth = this.model.getHealth();
+			this.view.updateHealth(currentHealth);
+		});
 	}
 
 	/**
