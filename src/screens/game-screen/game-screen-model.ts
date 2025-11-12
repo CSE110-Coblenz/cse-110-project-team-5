@@ -11,20 +11,20 @@ export class GameScreenModel {
 	reset(): void {
 		this.score = 0;
 		this.health = 100;
+	private currentQuestion = "YOU SHOULDN'T SEE THIS";
+	private currentAnswer = -999;
+
+	public setQuestionAndAnswer(question: string, answer: number): void {
+		this.currentQuestion = question;
+		this.currentAnswer = answer;
 	}
 
-	/**
-	 * Increment score when lemon is clicked
-	 */
-	incrementScore(): void {
-		this.score++;
+	public getQuestion(): string {
+		return this.currentQuestion;
 	}
 
-	/**
-	 * Get current score
-	 */
-	getScore(): number {
-		return this.score;
+	public getAnswer(): number {
+		return this.currentAnswer;
 	}
 
 	/**

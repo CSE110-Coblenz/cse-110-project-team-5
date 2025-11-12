@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
-import {stageWidth, stageHeight} from '../../constants.ts';
+import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
+import type {GameScreenModel} from './game-screen-model.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
@@ -23,6 +24,7 @@ export class GameScreenView implements View {
 	show(): void {
 		this.group.visible(true);
 		this.group.getLayer()?.draw();
+		this.toggleAnswerInput(true);
 	}
 
 	/**
@@ -31,6 +33,7 @@ export class GameScreenView implements View {
 	hide(): void {
 		this.group.visible(false);
 		this.group.getLayer()?.draw();
+		this.toggleAnswerInput(false);
 	}
 
 	getGroup(): Konva.Group {
@@ -80,6 +83,8 @@ export class GameScreenView implements View {
 
 	public updateHealth(newHealth: number): void {
 		this.healthIndicator.text(`Health: ${newHealth}`);
+	public updateQuestionPrompt(model: GameScreenModel): void {
+		this.questionPrompt.text(model.getQuestion());
 	}
 
 	private initializeView(): void {
@@ -206,7 +211,7 @@ export class GameScreenView implements View {
 		this.questionPrompt = new Konva.Text({
 			x: stageWidth * 0.283,
 			y: stageHeight * 0.047,
-			text: 'What is x equal to?                               4x-4 = 0',
+			text: "PLACEHOLDER QUESTION YOU SHOULDN'T SEE THIS",
 			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
@@ -272,5 +277,9 @@ export class GameScreenView implements View {
 			img.height(towerHeight);
 			this.group.add(img);
 		});
+	}
+
+	private toggleAnswerInput(active: boolean): void {
+		answerInputForm.hidden = !active;
 	}
 }
