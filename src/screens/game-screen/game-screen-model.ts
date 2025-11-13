@@ -2,7 +2,6 @@
  * GameScreenModel - Manages game state
  */
 export class GameScreenModel {
-	private score = 0;
 	private health = 100;
 	private currentQuestion = "YOU SHOULDN'T SEE THIS";
 	private currentAnswer = -999;
@@ -11,7 +10,6 @@ export class GameScreenModel {
 	 * Reset game state for a new game
 	 */
 	reset(): void {
-		this.score = 0;
 		this.health = 100;
 	}
 
