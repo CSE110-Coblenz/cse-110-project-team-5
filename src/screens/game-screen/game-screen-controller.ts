@@ -9,6 +9,7 @@ import {GameScreenView} from './game-screen-view.ts';
 export class GameScreenController extends ScreenController {
 	private model: GameScreenModel;
 	private readonly view: GameScreenView;
+	private readonly durationTime = 400;
 
 	constructor() {
 		super();
@@ -18,6 +19,7 @@ export class GameScreenController extends ScreenController {
 
 		answerInputForm.addEventListener('submit', (event) => {
 			event.preventDefault();
+
 			if (answerInputBox.valueAsNumber === this.model.getAnswer()) {
 				this.onAnswerSuccess();
 			} else {
@@ -29,6 +31,7 @@ export class GameScreenController extends ScreenController {
 	startGame(): void {
 		this.model = new GameScreenModel();
 		this.generateNewQuestion();
+		this.view.setQuestionBoxColor('white');
 		this.view.show();
 
 		const initialHealth = this.model.getHealth();
@@ -60,12 +63,20 @@ export class GameScreenController extends ScreenController {
 	}
 
 	private onAnswerSuccess() {
-		console.log('correct');
 		answerInputForm.reset();
-		this.generateNewQuestion();
+		this.view.setQuestionBoxColor('green');
+		window.setTimeout(() => {
+			this.view.setQuestionBoxColor('white');
+			this.generateNewQuestion();
+		}, this.durationTime);
 	}
 
 	private onAnswerFail(): void {
-		console.log('failed');
+		answerInputForm.reset();
+		this.view.setQuestionBoxColor('red');
+		window.setTimeout(() => {
+			this.view.setQuestionBoxColor('white');
+			this.generateNewQuestion();
+		}, this.durationTime);
 	}
 }

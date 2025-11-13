@@ -11,6 +11,7 @@ export class GameScreenView implements View {
 	private roundIndicator!: Konva.Text;
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
+	private questionBar!: Konva.Rect;
 	private pathDefinition = new Array<{x: number; y: number}>();
 
 	constructor() {
@@ -89,6 +90,11 @@ export class GameScreenView implements View {
 		this.questionPrompt.text(model.getQuestion());
 	}
 
+	public setQuestionBoxColor(color: string): void {
+		this.questionBar.fill(color);
+		this.group.getLayer()?.draw();
+	}
+
 	private initializeView(): void {
 		this.createBackground();
 		this.createPath();
@@ -151,15 +157,15 @@ export class GameScreenView implements View {
 
 		this.group.add(topLeftBar);
 
-		const topRightBar = new Konva.Rect({
+		this.questionBar = new Konva.Rect({
 			x: stageWidth * 0.275,
 			y: stageHeight * 0.043,
-			width: 853.2,
+			width: 800,
 			height: 54,
 			fill: 'white',
 		});
 
-		this.group.add(topRightBar);
+		this.group.add(this.questionBar);
 
 		const sideBar = new Konva.Rect({
 			x: stageWidth * 0.82,
@@ -170,14 +176,7 @@ export class GameScreenView implements View {
 		});
 		this.group.add(sideBar);
 
-		const answerBar = new Konva.Rect({
-			x: stageWidth * 0.0145,
-			y: stageHeight * 0.91,
-			width: stageWidth * 0.792,
-			height: 60,
-			fill: 'white',
-		});
-		this.group.add(answerBar);
+		
 
 		const towerHeader = new Konva.Rect({
 			x: stageWidth * 0.84,
@@ -220,16 +219,6 @@ export class GameScreenView implements View {
 		});
 		this.group.add(this.questionPrompt);
 
-		const answer = new Konva.Text({
-			x: stageWidth * 0.02,
-			y: stageHeight * 0.915,
-			text: 'x = ',
-			fontSize: 51,
-			fontFamily: 'Jersey 10',
-			fill: 'black',
-		});
-		this.group.add(answer);
-
 		const towerHeaderText = new Konva.Text({
 			x: stageWidth * 0.881,
 			y: stageHeight * 0.035,
@@ -242,13 +231,13 @@ export class GameScreenView implements View {
 	}
 
 	private createTowerVisuals(): void {
-		const towerSpacing = stageHeight * 0.15;
+		const towerSpacing = stageHeight * 0.20;
 		const towerY = stageHeight * 0.1;
-		const towerWidth = 117;
-		const towerHeight = 175;
+		const towerWidth = 150;
+		const towerHeight = 200;
 		const towerX = stageWidth * 0.88;
 
-		Konva.Image.fromURL('/gamescreen_images/tower.png', (img) => {
+		Konva.Image.fromURL('/gamescreen_images/tower3.png', (img) => {
 			img.x(towerX);
 			img.y(towerY);
 			img.width(towerWidth);
@@ -264,7 +253,7 @@ export class GameScreenView implements View {
 			this.group.add(img);
 		});
 
-		Konva.Image.fromURL('/gamescreen_images/tower3.png', (img) => {
+		Konva.Image.fromURL('/gamescreen_images/tower4.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 2);
 			img.width(towerWidth);
@@ -272,7 +261,7 @@ export class GameScreenView implements View {
 			this.group.add(img);
 		});
 
-		Konva.Image.fromURL('/gamescreen_images/tower4.png', (img) => {
+		Konva.Image.fromURL('/gamescreen_images/tower.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 3);
 			img.width(towerWidth);
