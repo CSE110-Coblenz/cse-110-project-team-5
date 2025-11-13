@@ -4,6 +4,8 @@
 export class GameScreenModel {
 	private score = 0;
 	private health = 100;
+	private currentQuestion = "YOU SHOULDN'T SEE THIS";
+	private currentAnswer = -999;
 
 	/**
 	 * Reset game state for a new game
@@ -11,8 +13,7 @@ export class GameScreenModel {
 	reset(): void {
 		this.score = 0;
 		this.health = 100;
-	private currentQuestion = "YOU SHOULDN'T SEE THIS";
-	private currentAnswer = -999;
+	}
 
 	public setQuestionAndAnswer(question: string, answer: number): void {
 		this.currentQuestion = question;

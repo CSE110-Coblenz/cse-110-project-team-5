@@ -83,6 +83,8 @@ export class GameScreenView implements View {
 
 	public updateHealth(newHealth: number): void {
 		this.healthIndicator.text(`Health: ${newHealth}`);
+	}
+	
 	public updateQuestionPrompt(model: GameScreenModel): void {
 		this.questionPrompt.text(model.getQuestion());
 	}
