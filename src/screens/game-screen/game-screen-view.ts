@@ -19,8 +19,8 @@ export class GameScreenView implements View {
 	}
 
 	/**
-   * Show the screen
-   */
+	 * Show the screen
+	 */
 	show(): void {
 		this.group.visible(true);
 		this.group.getLayer()?.draw();
@@ -28,8 +28,8 @@ export class GameScreenView implements View {
 	}
 
 	/**
-   * Hide the screen
-   */
+	 * Hide the screen
+	 */
 	hide(): void {
 		this.group.visible(false);
 		this.group.getLayer()?.draw();
@@ -125,7 +125,7 @@ export class GameScreenView implements View {
 			{x: stageWidth * 0.82, y: stageHeight * 0.73},
 		];
 
-		const pathPointsFlat = this.pathDefinition.flatMap(point => [
+		const pathPointsFlat = this.pathDefinition.flatMap((point) => [
 			point.x,
 			point.y,
 		]);
@@ -213,7 +213,7 @@ export class GameScreenView implements View {
 		this.questionPrompt = new Konva.Text({
 			x: stageWidth * 0.283,
 			y: stageHeight * 0.047,
-			text: 'PLACEHOLDER QUESTION YOU SHOULDN\'T SEE THIS',
+			text: "PLACEHOLDER QUESTION YOU SHOULDN'T SEE THIS",
 			fontSize: 51,
 			fontFamily: 'Jersey 10',
 			fill: 'black',
@@ -248,7 +248,7 @@ export class GameScreenView implements View {
 		const towerHeight = 175;
 		const towerX = stageWidth * 0.88;
 
-		Konva.Image.fromURL('/gamescreen_images/tower.png', img => {
+		Konva.Image.fromURL('/gamescreen_images/tower.png', (img) => {
 			img.x(towerX);
 			img.y(towerY);
 			img.width(towerWidth);
@@ -256,7 +256,7 @@ export class GameScreenView implements View {
 			this.group.add(img);
 		});
 
-		Konva.Image.fromURL('/gamescreen_images/tower2.png', img => {
+		Konva.Image.fromURL('/gamescreen_images/tower2.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing);
 			img.width(towerWidth);
@@ -264,7 +264,7 @@ export class GameScreenView implements View {
 			this.group.add(img);
 		});
 
-		Konva.Image.fromURL('/gamescreen_images/tower3.png', img => {
+		Konva.Image.fromURL('/gamescreen_images/tower3.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 2);
 			img.width(towerWidth);
@@ -272,7 +272,7 @@ export class GameScreenView implements View {
 			this.group.add(img);
 		});
 
-		Konva.Image.fromURL('/gamescreen_images/tower4.png', img => {
+		Konva.Image.fromURL('/gamescreen_images/tower4.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 3);
 			img.width(towerWidth);

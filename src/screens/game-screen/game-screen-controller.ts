@@ -44,8 +44,8 @@ export class GameScreenController extends ScreenController {
 	}
 
 	/**
-   * Get the view group
-   */
+	 * Get the view group
+	 */
 	getView(): GameScreenView {
 		return this.view;
 	}

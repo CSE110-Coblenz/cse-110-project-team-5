@@ -3,12 +3,12 @@
  */
 export class GameScreenModel {
 	private health = 100;
-	private currentQuestion = 'YOU SHOULDN\'T SEE THIS';
+	private currentQuestion = "YOU SHOULDN'T SEE THIS";
 	private currentAnswer = -999;
 
 	/**
-   * Reset game state for a new game
-   */
+	 * Reset game state for a new game
+	 */
 	reset(): void {
 		this.health = 100;
 	}
@@ -27,15 +27,15 @@ export class GameScreenModel {
 	}
 
 	/**
-   * Get current health
-   */
+	 * Get current health
+	 */
 	getHealth(): number {
 		return this.health;
 	}
 
 	/**
-   * Decrease health when monster reaches the end
-   */
+	 * Decrease health when monster reaches the end
+	 */
 	decreaseHealth(amount: number): void {
 		this.health -= amount;
 		if (this.health < 0) {
