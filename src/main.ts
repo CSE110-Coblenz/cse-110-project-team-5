@@ -4,6 +4,7 @@ import {MenuScreenController} from './screens/menu-screen/menu-screen-controller
 import {GameScreenController} from './screens/game-screen/game-screen-controller.ts';
 import {stageWidth, stageHeight} from './constants.ts';
 import {MinigameScreenController} from './screens/minigame-screen/minigame-screen-controller.ts';
+import {GameOverController} from './screens/game-over-screen/game-over-controller.ts';
 
 /**
  * Main Application - Coordinates all screens
@@ -22,6 +23,7 @@ class App implements ScreenSwitcher {
 	private readonly menuController: MenuScreenController;
 	private readonly gameController: GameScreenController;
 	private readonly minigameController: MinigameScreenController;
+	private readonly gameOverController: GameOverController;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -40,12 +42,18 @@ class App implements ScreenSwitcher {
 		this.menuController = new MenuScreenController(this);
 		this.gameController = new GameScreenController();
 		this.minigameController = new MinigameScreenController(this);
+		this.gameOverController = new GameOverController();
+
+		// Connect game controller to game over controller
+		this.gameController.setGameOverController(this.gameOverController); 
+		this.gameOverController.setScreenSwitcher(this); 
 
 		// Add all screen groups to the layer
 		// All screens exist simultaneously but only one is visible at a time
 		this.layer.add(this.menuController.getView().getGroup());
 		this.layer.add(this.gameController.getView().getGroup());
 		this.layer.add(this.minigameController.getView().getGroup());
+		this.layer.add(this.gameOverController.getView().getGroup()); 
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();
@@ -69,6 +77,7 @@ class App implements ScreenSwitcher {
 		this.menuController.hide();
 		this.gameController.hide();
 		this.minigameController.hide();
+		this.gameOverController.hide();
 
 		// Show the requested screen based on the screen type
 		switch (screen.type) {
