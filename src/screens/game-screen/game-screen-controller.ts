@@ -230,7 +230,7 @@ export class GameScreenController extends ScreenController {
 	}
 
 	private endGame(): void {
-		this.view.hide();
+		// this.view.hide();
 		
 		if (this.gameOverController) {
 			this.gameOverController.showGameOver(this.model.getRound());
