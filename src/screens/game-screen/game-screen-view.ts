@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
-import type {GameScreenModel} from './game-screen-model.ts';
+import type {GameScreenModel} from './model/game-screen-model.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
@@ -12,6 +12,9 @@ export class GameScreenView implements View {
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
 	private pathDefinition = new Array<{x: number; y: number}>();
+	private monsterVisuals = new Map<number, Konva.Rect>(); // maps monster IDs to their visuals
+	private monsterTweens = new Map<number, Konva.Tween>();  // maps monster IDs to their tweens
+
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -40,10 +43,10 @@ export class GameScreenView implements View {
 		return this.group;
 	}
 
-	public spawnMonster(onMonsterReachEnd: () => void): void {
-		const startPoint = this.pathDefinition[0];
+	// spawn monster visual along path
+	public spawnMonsterVisual(monsterId: number, monsterSpeed: number, onReachEnd: () => void): void {
+		const startPoint = this.pathDefinition[0]; 
 
-		// Create monster as a red square
 		const monster = new Konva.Rect({
 			x: startPoint.x,
 			y: startPoint.y,
@@ -55,34 +58,74 @@ export class GameScreenView implements View {
 		});
 
 		this.group.add(monster);
+		this.monsterVisuals.set(monsterId, monster);
 
 		let index = 0;
-		const speed = 6;
+		const baseTotalDuration = 60; // takes a monster 30s to traverse the whole path
+		let currentTween: Konva.Tween | null = null;  // Track current tween
 
-		// Function to move to the next point
 		const tweenOnFinish = () => {
 			index++;
 			if (index >= this.pathDefinition.length) {
 				monster.destroy();
-				onMonsterReachEnd();
+				this.monsterVisuals.delete(monsterId);
+				this.monsterTweens.delete(monsterId);  // Clean up
+				onReachEnd();
 			} else {
 				const nextPoint = this.pathDefinition[index];
 
-				new Konva.Tween({
+				currentTween = new Konva.Tween({
 					node: monster,
-					duration: speed,
+					duration: (baseTotalDuration / this.pathDefinition.length) /monsterSpeed, // Adjust duration based on speed
 					x: nextPoint.x,
 					y: nextPoint.y,
 					onFinish: tweenOnFinish,
-				}).play();
+				});
+				
+				this.monsterTweens.set(monsterId, currentTween);  // Track it
+				currentTween.play();
 			}
 		};
 
 		tweenOnFinish();
 	}
 
+	// destroy monster visual and its tween
+	public destroyMonsterVisual(monsterId: number): void {
+		const monster = this.monsterVisuals.get(monsterId);
+		const tween = this.monsterTweens.get(monsterId);
+		
+		if (tween) {
+			tween.destroy();  // Stop and destroy the tween
+			this.monsterTweens.delete(monsterId);
+		}
+		
+		if (monster) {
+			monster.destroy();
+			this.monsterVisuals.delete(monsterId);
+		}
+	}
+
+	// pause monster animations
+	public pauseAllMonsters(): void {
+		this.monsterTweens.forEach((tween) => {
+			tween.pause();
+		});
+	}
+
+	// resume monster animations
+	public resumeAllMonsters(): void {
+		this.monsterTweens.forEach((tween) => {
+			tween.play();
+		});
+	}
+
 	public updateHealth(newHealth: number): void {
 		this.healthIndicator.text(`Health: ${newHealth}`);
+	}
+
+	public updateRound(roundNumber: number): void {
+		this.roundIndicator.text(`Round: ${roundNumber}`);
 	}
 
 	public updateQuestionPrompt(model: GameScreenModel): void {
