@@ -176,8 +176,6 @@ export class GameScreenView implements View {
 		});
 		this.group.add(sideBar);
 
-		
-
 		const towerHeader = new Konva.Rect({
 			x: stageWidth * 0.84,
 			y: stageHeight * 0.03,
@@ -231,7 +229,7 @@ export class GameScreenView implements View {
 	}
 
 	private createTowerVisuals(): void {
-		const towerSpacing = stageHeight * 0.20;
+		const towerSpacing = stageHeight * 0.2;
 		const towerY = stageHeight * 0.1;
 		const towerWidth = 150;
 		const towerHeight = 200;

@@ -1,4 +1,8 @@
-import {answerInputBox, answerInputForm} from '../../constants.ts';
+import {
+	answerInputBox,
+	answerInputForm,
+	questionColorDuration,
+} from '../../constants.ts';
 import {ScreenController} from '../../types.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
@@ -9,7 +13,6 @@ import {GameScreenView} from './game-screen-view.ts';
 export class GameScreenController extends ScreenController {
 	private model: GameScreenModel;
 	private readonly view: GameScreenView;
-	private readonly durationTime = 400;
 
 	constructor() {
 		super();
@@ -65,18 +68,18 @@ export class GameScreenController extends ScreenController {
 	private onAnswerSuccess() {
 		answerInputForm.reset();
 		this.view.setQuestionBoxColor('green');
-		window.setTimeout(() => {
+		globalThis.setTimeout(() => {
 			this.view.setQuestionBoxColor('white');
 			this.generateNewQuestion();
-		}, this.durationTime);
+		}, questionColorDuration);
 	}
 
 	private onAnswerFail(): void {
 		answerInputForm.reset();
 		this.view.setQuestionBoxColor('red');
-		window.setTimeout(() => {
+		globalThis.setTimeout(() => {
 			this.view.setQuestionBoxColor('white');
 			this.generateNewQuestion();
-		}, this.durationTime);
+		}, questionColorDuration);
 	}
 }
