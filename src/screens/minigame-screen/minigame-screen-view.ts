@@ -32,7 +32,10 @@ export class MinigameScreenView implements View {
 		this.prefixText.text(question.prefix);
 		this.highlightedText.text(question.highlighted);
 		this.suffixText.text(question.suffix);
-		this.prefixText.position({x: this.header.x() + 12, y: this.header.y() + 8});
+		this.prefixText.position({
+			x: this.header.x() + 12,
+			y: this.header.y() + 8,
+		});
 		this.highlightedText.position({
 			x: this.prefixText.x() + this.prefixText.width(),
 			y: this.prefixText.y(),
@@ -87,7 +90,10 @@ export class MinigameScreenView implements View {
 		this.header.width(headerWidth);
 		this.header.position({x: width / 2 - Math.round(width * 0.2), y: 20});
 
-		this.prefixText.position({x: this.header.x() + 12, y: this.header.y() + 8});
+		this.prefixText.position({
+			x: this.header.x() + 12,
+			y: this.header.y() + 8,
+		});
 		this.highlightedText.position({
 			x: this.prefixText.x() + this.prefixText.width(),
 			y: this.prefixText.y(),

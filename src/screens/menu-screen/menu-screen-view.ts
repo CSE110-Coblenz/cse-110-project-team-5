@@ -38,17 +38,17 @@ export class MenuScreenView implements View {
 		this.group.add(bgBase, bgTex);
 
 		const cx = stageWidth / 2;
-		const cy = 120;
-		const leftX = cx - 260;
-		const rightX = cx + 260;
-		const path = ` M ${leftX} ${cy + 50} Q ${cx} ${cy - 80} ${rightX} ${cy + 50}`;
+		const cy = 0;
+		const leftX = cx - 800;
+		const rightX = cx + 800;
+		const path = ` M ${leftX} ${cy + 400} Q ${cx} ${cy - 10} ${rightX} ${cy + 400}`;
 
 		const title = new Konva.TextPath({
 			x: 0,
 			y: 0,
-			text: 'GAME NAME',
+			text: 'Tower Defense',
 			data: path,
-			fontSize: 100,
+			fontSize: 250,
 			fontFamily: `'Jersey 10', sans-serif`,
 			fill: '#5B2A12',
 			align: 'center',
@@ -57,10 +57,10 @@ export class MenuScreenView implements View {
 
 		this.group.add(title);
 
-		const buttonWidth = 240;
-		const buttonHeight = 65;
-		const gap = 35;
-		const startY = 200;
+		const buttonWidth = 480;
+		const buttonHeight = 130;
+		const gap = 60;
+		const startY = 400;
 
 		const makeButton = (
 			label: string,
@@ -88,9 +88,9 @@ export class MenuScreenView implements View {
 
 			const text = new Konva.Text({
 				x: cx,
-				y: buttonHeight / 2 - 14,
+				y: buttonHeight / 2 - 40,
 				text: label,
-				fontSize: 28,
+				fontSize: 90,
 				fontStyle: 'bold',
 				fontFamily: `'Jersey 10', sans-serif`,
 				fill: '#36150E',

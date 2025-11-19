@@ -6,3 +6,5 @@ export const answerInputForm: HTMLFormElement =
 	document.querySelector('#answerContainer')!;
 export const answerInputBox: HTMLInputElement =
 	document.querySelector('#answerInput')!;
+
+export const questionColorDuration = 1;

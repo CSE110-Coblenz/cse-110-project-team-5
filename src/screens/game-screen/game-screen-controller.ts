@@ -1,4 +1,8 @@
-import {answerInputBox, answerInputForm} from '../../constants.ts';
+import {
+	answerInputBox,
+	answerInputForm,
+	questionColorDuration,
+} from '../../constants.ts';
 import {ScreenController} from '../../types.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
@@ -18,6 +22,7 @@ export class GameScreenController extends ScreenController {
 
 		answerInputForm.addEventListener('submit', (event) => {
 			event.preventDefault();
+
 			if (answerInputBox.valueAsNumber === this.model.getAnswer()) {
 				this.onAnswerSuccess();
 			} else {
@@ -29,6 +34,7 @@ export class GameScreenController extends ScreenController {
 	startGame(): void {
 		this.model = new GameScreenModel();
 		this.generateNewQuestion();
+		this.view.setQuestionBoxColor('white', 0);
 		this.view.show();
 
 		const initialHealth = this.model.getHealth();
@@ -60,12 +66,14 @@ export class GameScreenController extends ScreenController {
 	}
 
 	private onAnswerSuccess() {
-		console.log('correct');
 		answerInputForm.reset();
+		this.view.setQuestionBoxColor('green', questionColorDuration);
 		this.generateNewQuestion();
 	}
 
 	private onAnswerFail(): void {
-		console.log('failed');
+		answerInputForm.reset();
+		this.view.setQuestionBoxColor('red', questionColorDuration);
+		this.generateNewQuestion();
 	}
 }
