@@ -125,4 +125,21 @@ export class GameScreenModel {
 	public getMonsterById(monsterId: number): Monster | null {
     	return this.monsterManager.getMonsterById(monsterId);
 	}
+
+	/**
+	 * Get current health
+	 */
+	getHealth(): number {
+		return this.health;
+	}
+
+	/**
+	 * Decrease health when monster reaches the end
+	 */
+	decreaseHealth(amount: number): void {
+		this.health -= amount;
+		if (this.health < 0) {
+			this.health = 0;
+		}
+	}
 }

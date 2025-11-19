@@ -1,4 +1,8 @@
-import {answerInputBox, answerInputForm} from '../../constants.ts';
+import {
+	answerInputBox,
+	answerInputForm,
+	questionColorDuration,
+} from '../../constants.ts';
 import {ScreenController} from '../../types.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
