@@ -61,19 +61,6 @@ export class GameScreenModel {
 		return this.round;
 	}
 
-	// public setQuestionAndAnswer(question: string, answer: number): void {
-	// 	this.currentQuestion = question;
-	// 	this.currentAnswer = answer;
-	// }
-
-	// public getQuestion(): string {
-	// 	return this.currentQuestion;
-	// }
-
-	// public getAnswer(): number {
-	// 	return this.currentAnswer;
-	// }
-
 	/**
 	 * Get current health
 	 */
@@ -124,22 +111,5 @@ export class GameScreenModel {
 
 	public getMonsterById(monsterId: number): Monster | null {
     	return this.monsterManager.getMonsterById(monsterId);
-	}
-
-	/**
-	 * Get current health
-	 */
-	getHealth(): number {
-		return this.health;
-	}
-
-	/**
-	 * Decrease health when monster reaches the end
-	 */
-	decreaseHealth(amount: number): void {
-		this.health -= amount;
-		if (this.health < 0) {
-			this.health = 0;
-		}
 	}
 }

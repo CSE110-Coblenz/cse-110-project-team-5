@@ -11,7 +11,9 @@ export class GameScreenView implements View {
 	private roundIndicator!: Konva.Text;
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
+	private questionBar!: Konva.Rect;
 	private pathDefinition = new Array<{x: number; y: number}>();
+	private colorTween: Konva.Tween | undefined;
 	private monsterVisuals = new Map<number, Konva.Rect>(); // maps monster IDs to their visuals
 	private monsterTweens = new Map<number, Konva.Tween>();  // maps monster IDs to their tweens
 
@@ -106,6 +108,17 @@ export class GameScreenView implements View {
 		}
 	}
 
+	public setQuestionBoxColor(color: string, duration: number): void {
+		this.colorTween?.destroy();
+		this.questionBar.fill(color);
+		this.colorTween = new Konva.Tween({
+			node: this.questionBar,
+			duration,
+			fill: 'white',
+		});
+		this.colorTween.play();
+	}
+
 	// pause monster animations
 	public pauseAllMonsters(): void {
 		this.monsterTweens.forEach((tween) => {
@@ -136,17 +149,6 @@ export class GameScreenView implements View {
 		if (questionElement) {
 			questionElement.textContent = questionText;
     	}
-	}
-
-	public setQuestionBoxColor(color: string, duration: number): void {
-		this.colorTween?.destroy();
-		this.questionBar.fill(color);
-		this.colorTween = new Konva.Tween({
-			node: this.questionBar,
-			duration,
-			fill: 'white',
-		});
-		this.colorTween.play();
 	}
 
 	private initializeView(): void {

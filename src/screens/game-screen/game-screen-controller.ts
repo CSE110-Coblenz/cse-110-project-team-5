@@ -57,7 +57,7 @@ export class GameScreenController extends ScreenController {
 		this.spawnTimeouts = [];
 		this.pendingMonsterIds = [];
 		this.spawnedMonsterIds = new Set();
-		// this.generateNewQuestion();
+		this.view.setQuestionBoxColor('white', 0);
 		this.view.show();
 
 		const initialHealth = this.model.getHealth();
@@ -73,15 +73,6 @@ export class GameScreenController extends ScreenController {
 	getView(): GameScreenView {
 		return this.view;
 	}
-
-	// private generateNewQuestion(): void {
-	// 	const randomValue = Math.floor(Math.random() * 10);
-	// 	this.model.setQuestionAndAnswer(
-	// 		`the answer is ${randomValue}`,
-	// 		randomValue,
-	// 	);
-	// 	this.view.updateQuestionPrompt(this.model);
-	// }
 
 	// Handles answer submission
     private handleAnswerSubmit(): void {
@@ -107,11 +98,10 @@ export class GameScreenController extends ScreenController {
 
 		 if (eliminatedMonster) {
             this.view.destroyMonsterVisual(monsterId);
-            console.log('correct');
         }
 
-		console.log('correct');
         answerInputForm.reset();
+		this.view.setQuestionBoxColor('green', questionColorDuration);
         this.updateCurrentQuestion(); 
         this.checkRoundEnd();
     }
@@ -129,7 +119,7 @@ export class GameScreenController extends ScreenController {
 	}
 
 	private onAnswerFail(): void {
-		console.log('failed');
+		this.view.setQuestionBoxColor('red', questionColorDuration);
 		answerInputForm.reset();
 	}
 
