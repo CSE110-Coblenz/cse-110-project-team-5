@@ -128,8 +128,14 @@ export class GameScreenView implements View {
 		this.roundIndicator.text(`Round: ${roundNumber}`);
 	}
 
-	public updateQuestionPrompt(model: GameScreenModel): void {
-		this.questionPrompt.text(model.getQuestion());
+	public updateQuestionPrompt(questionText: string): void {
+		// Update the Konva text element
+		this.questionPrompt.text(questionText);
+		
+		const questionElement = document.getElementById('question-prompt');
+		if (questionElement) {
+			questionElement.textContent = questionText;
+    	}
 	}
 
 	private initializeView(): void {

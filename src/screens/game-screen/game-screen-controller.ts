@@ -3,6 +3,7 @@ import {ScreenController} from '../../types.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
 import {GameOverController} from '../game-over-screen/game-over-controller.ts'; 
+import { Monster } from './models/monster.ts';
 
 /**
  * GameScreenController - Coordinates game logic between Model and View
@@ -10,7 +11,7 @@ import {GameOverController} from '../game-over-screen/game-over-controller.ts';
 export class GameScreenController extends ScreenController {
 	private model: GameScreenModel;
 	private readonly view: GameScreenView;
-	private readonly SPAWN_DELAY_MS = 2000; // Delay between spawns
+	private readonly SPAWN_DELAY_MS = 1000; // Delay between spawns
 	private gameOverController?: GameOverController; // Reference to GameOverController
 	private isPaused: boolean = false; // Game paused state
 	private spawnTimeouts: number[] = [];	// Track spawn timeouts
@@ -26,12 +27,8 @@ export class GameScreenController extends ScreenController {
 		answerInputForm.addEventListener('submit', (event) => {
 			event.preventDefault();
 			if (this.isPaused) return;
-
-			if (answerInputBox.valueAsNumber === this.model.getAnswer()) {
-				this.onAnswerSuccess();
-			} else {
-				this.onAnswerFail();
-			}
+			
+			this.handleAnswerSubmit();
 		});
 
 		// Handles visibility change to pause/resume game
@@ -56,7 +53,7 @@ export class GameScreenController extends ScreenController {
 		this.spawnTimeouts = [];
 		this.pendingMonsterIds = [];
 		this.spawnedMonsterIds = new Set();
-		this.generateNewQuestion();
+		// this.generateNewQuestion();
 		this.view.show();
 
 		const initialHealth = this.model.getHealth();
@@ -73,30 +70,63 @@ export class GameScreenController extends ScreenController {
 		return this.view;
 	}
 
-	private generateNewQuestion(): void {
-		const randomValue = Math.floor(Math.random() * 10);
-		this.model.setQuestionAndAnswer(
-			`the answer is ${randomValue}`,
-			randomValue,
-		);
-		this.view.updateQuestionPrompt(this.model);
-	}
+	// private generateNewQuestion(): void {
+	// 	const randomValue = Math.floor(Math.random() * 10);
+	// 	this.model.setQuestionAndAnswer(
+	// 		`the answer is ${randomValue}`,
+	// 		randomValue,
+	// 	);
+	// 	this.view.updateQuestionPrompt(this.model);
+	// }
 
-	private onAnswerSuccess() {
-		const eliminatedMonsterId = this.model.eliminateFirstMonster();
+	// Handles answer submission
+    private handleAnswerSubmit(): void {
+        const currentMonster = this.model.getCurrentActiveMonster();
+        
+        if (!currentMonster) {
+            console.log('No monster spawned yet!');
+            answerInputForm.reset();
+            return;
+        }
 
-		if (eliminatedMonsterId !== null) {
-			this.view.destroyMonsterVisual(eliminatedMonsterId);
-		}
+        const userAnswer = answerInputBox.valueAsNumber;
+        
+        if (userAnswer === currentMonster.getAnswer()) {
+            this.onAnswerSuccess(currentMonster.id);
+        } else {
+            this.onAnswerFail();
+        }
+    }
+
+	private onAnswerSuccess(monsterId: number): void {
+		const eliminatedMonster = this.model.eliminateMonster(monsterId);
+
+		 if (eliminatedMonster) {
+            this.view.destroyMonsterVisual(monsterId);
+            console.log('correct');
+        }
 
 		console.log('correct');
-		answerInputForm.reset();
-		this.generateNewQuestion();
-		this.checkRoundEnd();
+        answerInputForm.reset();
+        this.updateCurrentQuestion(); 
+        this.checkRoundEnd();
+    }
+
+    // Update question display based on current active monster
+	private updateCurrentQuestion(): void {
+		const currentMonster = this.model.getCurrentActiveMonster();
+		
+		if (currentMonster) {
+			this.view.updateQuestionPrompt(currentMonster.getQuestion());
+			console.log(`[CONTROLLER] Updated question to: ${currentMonster.getQuestion()}`);
+		} else {
+			this.view.updateQuestionPrompt('Waiting for next monster...');
+		}
 	}
 
 	private onAnswerFail(): void {
 		console.log('failed');
+		answerInputForm.reset();
 	}
 
 	private startRound(): void {
@@ -106,25 +136,23 @@ export class GameScreenController extends ScreenController {
 		this.pendingMonsterIds = [];
 		this.spawnedMonsterIds = new Set();
 		
+		const monsters: Monster[] = this.model.getMonsterManager().getMonsters();
+		
+		// Don't show question yet - wait for first monster to actually spawn
+		this.view.updateQuestionPrompt('Get ready...');
+
 		// Spawn monsters with staggered delay
-		interface ISpawnableMonster { id: number; }
-
-		const monsters: ISpawnableMonster[] = this.model.getMonsterManager().getMonsters() as ISpawnableMonster[];
-
-		monsters.forEach((monster: ISpawnableMonster, index: number) => {
+		monsters.forEach((monster: Monster, index: number) => {
 			const delay: number = index * this.SPAWN_DELAY_MS;
-			
-			// Add to pending list
 			this.pendingMonsterIds.push(monster.id);
 			
 			const timeoutId: number = window.setTimeout(() => {
 				if (!this.isPaused) {
 					this.spawnMonsterVisual(
 						monster.id,
-						this.model.getMonsterById(monster.id)?.getSpeed() || 1.0
+						monster.getSpeed()
 					);
 					this.spawnedMonsterIds.add(monster.id);
-					// Remove from pending after spawning
 					this.pendingMonsterIds = this.pendingMonsterIds.filter((id: number) => id !== monster.id);
 				}
 			}, delay);
@@ -136,6 +164,12 @@ export class GameScreenController extends ScreenController {
 	// spawn monster visual through view
 	private spawnMonsterVisual(monsterId: number, monsterSpeed: number): void {
 		console.log(`[CONTROLLER] Spawning monster ${monsterId}`);
+
+		this.model.markMonsterAsSpawned(monsterId);
+		
+		// Update question AFTER marking as spawned, so getCurrentActiveMonster() works correctly
+		this.updateCurrentQuestion();
+
 		this.view.spawnMonsterVisual(monsterId, monsterSpeed, () => {
 			if (!this.isPaused) {
 				this.handleMonsterReachedEnd(monsterId);
