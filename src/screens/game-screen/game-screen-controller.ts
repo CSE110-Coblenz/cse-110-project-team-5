@@ -34,7 +34,7 @@ export class GameScreenController extends ScreenController {
 	startGame(): void {
 		this.model = new GameScreenModel();
 		this.generateNewQuestion();
-		this.view.setQuestionBoxColor('white');
+		this.view.setQuestionBoxColor('white', 0);
 		this.view.show();
 
 		const initialHealth = this.model.getHealth();
@@ -67,19 +67,13 @@ export class GameScreenController extends ScreenController {
 
 	private onAnswerSuccess() {
 		answerInputForm.reset();
-		this.view.setQuestionBoxColor('green');
-		globalThis.setTimeout(() => {
-			this.view.setQuestionBoxColor('white');
-			this.generateNewQuestion();
-		}, questionColorDuration);
+		this.view.setQuestionBoxColor('green', questionColorDuration);
+		this.generateNewQuestion();
 	}
 
 	private onAnswerFail(): void {
 		answerInputForm.reset();
-		this.view.setQuestionBoxColor('red');
-		globalThis.setTimeout(() => {
-			this.view.setQuestionBoxColor('white');
-			this.generateNewQuestion();
-		}, questionColorDuration);
+		this.view.setQuestionBoxColor('red', questionColorDuration);
+		this.generateNewQuestion();
 	}
 }

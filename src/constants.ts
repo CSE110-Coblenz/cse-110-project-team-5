@@ -7,4 +7,4 @@ export const answerInputForm: HTMLFormElement =
 export const answerInputBox: HTMLInputElement =
 	document.querySelector('#answerInput')!;
 
-export const questionColorDuration = 400;
+export const questionColorDuration = 1;

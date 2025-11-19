@@ -13,6 +13,7 @@ export class GameScreenView implements View {
 	private questionPrompt!: Konva.Text;
 	private questionBar!: Konva.Rect;
 	private pathDefinition = new Array<{x: number; y: number}>();
+	private colorTween: Konva.Tween | undefined;
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -90,9 +91,15 @@ export class GameScreenView implements View {
 		this.questionPrompt.text(model.getQuestion());
 	}
 
-	public setQuestionBoxColor(color: string): void {
+	public setQuestionBoxColor(color: string, duration: number): void {
+		this.colorTween?.destroy();
 		this.questionBar.fill(color);
-		this.group.getLayer()?.draw();
+		this.colorTween = new Konva.Tween({
+			node: this.questionBar,
+			duration,
+			fill: 'white',
+		});
+		this.colorTween.play();
 	}
 
 	private initializeView(): void {
