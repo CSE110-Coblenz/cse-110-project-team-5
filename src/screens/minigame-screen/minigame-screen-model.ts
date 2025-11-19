@@ -30,7 +30,7 @@ export class MinigameScreenModel {
 
 	constructor(rng: () => number = Math.random) {
 		this.rng = rng;
-		this.questionPrefix = 'Simplify ';
+		this.questionPrefix = 'Expand ';
 		this.questionHighlighted = '';
 		this.questionSuffix = ' to its full expression:';
 		this.options = [];

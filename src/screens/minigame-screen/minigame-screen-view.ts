@@ -221,6 +221,7 @@ export class MinigameScreenView implements View {
 	layout(width: number, height: number): void {
 		const headerWidth = Math.round(width * 0.4);
 		this.header.width(headerWidth);
+		this.header.height(height * 0.05);
 		this.header.position({x: width / 2 - Math.round(width * 0.2), y: 20});
 
 		this.prefixText.position({
@@ -306,7 +307,7 @@ export class MinigameScreenView implements View {
 			const txt = this.answerTextNodes[i];
 			txt.position({
 				x: (rect?.x() ?? 0) + btnW / 2,
-				y: (rect?.y() ?? 0) + btnH / 2 - 12,
+				y: (rect?.y() ?? 0) + btnH / 2 - 21,
 			});
 			txt.offsetX(txt.width() / 2);
 
@@ -448,7 +449,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: '',
-			fontSize: 24,
+			fontSize: 36,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#000',
 		});
@@ -457,7 +458,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: '',
-			fontSize: 24,
+			fontSize: 36,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#e53b40',
 			fontStyle: 'bold',
@@ -467,7 +468,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: '',
-			fontSize: 24,
+			fontSize: 36,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#000',
 		});
@@ -489,7 +490,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: 'Score: 0',
-			fontSize: 26,
+			fontSize: 32,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#000000',
 		});
@@ -499,7 +500,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: 'Question 1',
-			fontSize: 22,
+			fontSize: 32,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#000000',
 		});
@@ -509,7 +510,7 @@ export class MinigameScreenView implements View {
 			x: 0,
 			y: 0,
 			text: '',
-			fontSize: 28,
+			fontSize: 36,
 			fontFamily: `${this.jerseyFont}, Arial`,
 			fill: '#2F4F4F',
 			align: 'center',
@@ -579,7 +580,7 @@ export class MinigameScreenView implements View {
 				x: 0,
 				y: 0,
 				text: '',
-				fontSize: 28,
+				fontSize: 42,
 				fontFamily: `${this.jerseyFont}, Arial`,
 				fill: '#3b1a16',
 				align: 'center',
