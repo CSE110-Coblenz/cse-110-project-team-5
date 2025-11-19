@@ -1,5 +1,5 @@
-import { Monster } from "./monster.ts";
-import { MonsterManager } from "./monster-manager.ts";
+import { Monster } from "./models/monster.ts";
+import { MonsterManager } from "./models/monster-manager.ts";
 
 /**
  * GameScreenModel - Manages game state

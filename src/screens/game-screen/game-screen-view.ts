@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
-import type {GameScreenModel} from './model/game-screen-model.ts';
+import type {GameScreenModel} from './game-screen-model.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva

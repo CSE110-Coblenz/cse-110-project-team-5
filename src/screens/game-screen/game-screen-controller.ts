@@ -1,6 +1,6 @@
 import {answerInputBox, answerInputForm} from '../../constants.ts';
 import {ScreenController} from '../../types.ts';
-import {GameScreenModel} from './model/game-screen-model.ts';
+import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
 import {GameOverController} from '../game-over-screen/game-over-controller.ts'; 
 
@@ -102,25 +102,30 @@ export class GameScreenController extends ScreenController {
 	private startRound(): void {
 		this.model.startRound();
 
-		const monsters = this.model.getMonsterManager().getMonsters();
-		
 		this.spawnTimeouts = [];
 		this.pendingMonsterIds = [];
 		this.spawnedMonsterIds = new Set();
 		
 		// Spawn monsters with staggered delay
-		monsters.forEach((monster, index) => {
-			const delay = index * this.SPAWN_DELAY_MS;
+		interface ISpawnableMonster { id: number; }
+
+		const monsters: ISpawnableMonster[] = this.model.getMonsterManager().getMonsters() as ISpawnableMonster[];
+
+		monsters.forEach((monster: ISpawnableMonster, index: number) => {
+			const delay: number = index * this.SPAWN_DELAY_MS;
 			
 			// Add to pending list
 			this.pendingMonsterIds.push(monster.id);
 			
-			const timeoutId = window.setTimeout(() => {
+			const timeoutId: number = window.setTimeout(() => {
 				if (!this.isPaused) {
-					this.spawnMonsterVisual(monster.id, this.model.getMonsterById(monster.id)?.getSpeed() || 1.0);
+					this.spawnMonsterVisual(
+						monster.id,
+						this.model.getMonsterById(monster.id)?.getSpeed() || 1.0
+					);
 					this.spawnedMonsterIds.add(monster.id);
 					// Remove from pending after spawning
-					this.pendingMonsterIds = this.pendingMonsterIds.filter(id => id !== monster.id);
+					this.pendingMonsterIds = this.pendingMonsterIds.filter((id: number) => id !== monster.id);
 				}
 			}, delay);
 			
