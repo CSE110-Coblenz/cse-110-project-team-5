@@ -236,7 +236,7 @@ export class GameScreenView implements View {
 	}
 
 	private createTowerVisuals(): void {
-		const towerY = stageHeight * 0.10;
+		const towerY = stageHeight * 0.1;
 		const towerWidth = 400;
 		const towerHeight = 800;
 		const towerX = stageWidth * 0.79;
