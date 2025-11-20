@@ -237,11 +237,12 @@ export class GameScreenView implements View {
 
 	private createTowerVisuals(): void {
 		const towerSpacing = stageHeight * 0.2;
-		const towerY = stageHeight * 0.1;
-		const towerWidth = 150;
-		const towerHeight = 200;
-		const towerX = stageWidth * 0.88;
+		const towerY = stageHeight * 0.05;
+		const towerWidth = 450;
+		const towerHeight = 900;
+		const towerX = stageWidth * 0.79;
 
+		/*
 		Konva.Image.fromURL('/gamescreen_images/tower3.png', (img) => {
 			img.x(towerX);
 			img.y(towerY);
@@ -249,15 +250,17 @@ export class GameScreenView implements View {
 			img.height(towerHeight);
 			this.group.add(img);
 		});
+		*/
 
 		Konva.Image.fromURL('/gamescreen_images/tower2.png', (img) => {
 			img.x(towerX);
-			img.y(towerY + towerSpacing);
+			img.y(towerY);
 			img.width(towerWidth);
 			img.height(towerHeight);
 			this.group.add(img);
 		});
 
+		/*
 		Konva.Image.fromURL('/gamescreen_images/tower4.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 2);
@@ -265,7 +268,9 @@ export class GameScreenView implements View {
 			img.height(towerHeight);
 			this.group.add(img);
 		});
+		*/
 
+		/*
 		Konva.Image.fromURL('/gamescreen_images/tower.png', (img) => {
 			img.x(towerX);
 			img.y(towerY + towerSpacing * 3);
@@ -273,6 +278,7 @@ export class GameScreenView implements View {
 			img.height(towerHeight);
 			this.group.add(img);
 		});
+		*/
 	}
 
 	private toggleAnswerInput(active: boolean): void {
