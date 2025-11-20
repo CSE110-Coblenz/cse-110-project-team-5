@@ -1,19 +1,16 @@
-import { Monster } from "./models/monster.ts";
-import { MonsterManager } from "./models/monster-manager.ts";
+import {type Monster} from './models/monster.ts';
+import {MonsterManager} from './models/monster-manager.ts';
 
 /**
  * GameScreenModel - Manages game state
  */
 export class GameScreenModel {
 	private health = 100;
-	// private currentQuestion = "YOU SHOULDN'T SEE THIS";
-	// private currentAnswer = -999;
 	private round = 1;
-	private monsterManager: MonsterManager;
-	private monstersPerRound = 5; // set the number of monsters per round
+	private readonly monsterManager: MonsterManager;
 
 	constructor() {
-		this.monsterManager = new MonsterManager(this.monstersPerRound);
+		this.monsterManager = new MonsterManager(this.getMonstersPerRound());
 	}
 
 	/**
@@ -87,19 +84,19 @@ export class GameScreenModel {
 
 	/* ******************* MONSTER MODEL LOGIC ******************* */
 	// Mark monster as spawned (visible on screen)
-    markMonsterAsSpawned(monsterId: number): void {
-        this.monsterManager.markMonsterAsSpawned(monsterId);
-    }
+	markMonsterAsSpawned(monsterId: number): void {
+		this.monsterManager.markMonsterAsSpawned(monsterId);
+	}
 
-    // Get current active monster (first spawned & alive)
-    getCurrentActiveMonster(): Monster | null {
-        return this.monsterManager.getFirstSpawnedAliveMonster();
-    }
+	// Get current active monster (first spawned & alive)
+	getCurrentActiveMonster(): Monster | undefined {
+		return this.monsterManager.getFirstSpawnedAliveMonster();
+	}
 
-    // kills monster when question answered correctly
-    eliminateMonster(monsterId: number): Monster | null {
-        return this.monsterManager.eliminateMonsterById(monsterId);
-    }
+	// Kills monster when question answered correctly
+	eliminateMonster(monsterId: number): Monster | undefined {
+		return this.monsterManager.eliminateMonsterById(monsterId);
+	}
 
 	/**
 	 * Handle monster reaching the end
@@ -109,7 +106,12 @@ export class GameScreenModel {
 		this.decreaseHealth(10);
 	}
 
-	public getMonsterById(monsterId: number): Monster | null {
-    	return this.monsterManager.getMonsterById(monsterId);
+	public getMonsterById(monsterId: number): Monster | undefined {
+		return this.monsterManager.getMonsterById(monsterId);
+	}
+
+	// Gets number of monsters per round
+	private getMonstersPerRound(): number {
+		return 5;
 	}
 }

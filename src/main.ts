@@ -45,15 +45,15 @@ class App implements ScreenSwitcher {
 		this.gameOverController = new GameOverController();
 
 		// Connect game controller to game over controller
-		this.gameController.setGameOverController(this.gameOverController); 
-		this.gameOverController.setScreenSwitcher(this); 
+		this.gameController.setGameOverController(this.gameOverController);
+		this.gameOverController.setScreenSwitcher(this);
 
 		// Add all screen groups to the layer
 		// All screens exist simultaneously but only one is visible at a time
 		this.layer.add(this.menuController.getView().getGroup());
 		this.layer.add(this.gameController.getView().getGroup());
 		this.layer.add(this.minigameController.getView().getGroup());
-		this.layer.add(this.gameOverController.getView().getGroup()); 
+		this.layer.add(this.gameOverController.getView().getGroup());
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();

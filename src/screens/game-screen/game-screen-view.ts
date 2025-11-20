@@ -1,7 +1,6 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
-import type {GameScreenModel} from './game-screen-model.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
@@ -14,9 +13,8 @@ export class GameScreenView implements View {
 	private questionBar!: Konva.Rect;
 	private pathDefinition = new Array<{x: number; y: number}>();
 	private colorTween: Konva.Tween | undefined;
-	private monsterVisuals = new Map<number, Konva.Rect>(); // maps monster IDs to their visuals
-	private monsterTweens = new Map<number, Konva.Tween>();  // maps monster IDs to their tweens
-
+	private readonly monsterVisuals = new Map<number, Konva.Rect>(); // Maps monster IDs to their visuals
+	private readonly monsterTweens = new Map<number, Konva.Tween>(); // Maps monster IDs to their tweens
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -45,9 +43,13 @@ export class GameScreenView implements View {
 		return this.group;
 	}
 
-	// spawn monster visual along path
-	public spawnMonsterVisual(monsterId: number, monsterSpeed: number, onReachEnd: () => void): void {
-		const startPoint = this.pathDefinition[0]; 
+	// Spawn monster visual along path
+	public spawnMonsterVisual(
+		monsterId: number,
+		monsterSpeed: number,
+		onReachEnd: () => void,
+	): void {
+		const startPoint = this.pathDefinition[0];
 
 		const monster = new Konva.Rect({
 			x: startPoint.x,
@@ -63,28 +65,29 @@ export class GameScreenView implements View {
 		this.monsterVisuals.set(monsterId, monster);
 
 		let index = 0;
-		const baseTotalDuration = 60; // takes a monster 30s to traverse the whole path
-		let currentTween: Konva.Tween | null = null;  // Track current tween
+		const baseTotalDuration = 60; // Takes a monster 30s to traverse the whole path
+		let currentTween: Konva.Tween | undefined; // Track current tween
 
 		const tweenOnFinish = () => {
 			index++;
 			if (index >= this.pathDefinition.length) {
 				monster.destroy();
 				this.monsterVisuals.delete(monsterId);
-				this.monsterTweens.delete(monsterId);  // Clean up
+				this.monsterTweens.delete(monsterId); // Clean up
 				onReachEnd();
 			} else {
 				const nextPoint = this.pathDefinition[index];
 
 				currentTween = new Konva.Tween({
 					node: monster,
-					duration: (baseTotalDuration / this.pathDefinition.length) /monsterSpeed, // Adjust duration based on speed
+					duration:
+						baseTotalDuration / this.pathDefinition.length / monsterSpeed, // Adjust duration based on speed
 					x: nextPoint.x,
 					y: nextPoint.y,
 					onFinish: tweenOnFinish,
 				});
-				
-				this.monsterTweens.set(monsterId, currentTween);  // Track it
+
+				this.monsterTweens.set(monsterId, currentTween); // Track it
 				currentTween.play();
 			}
 		};
@@ -92,16 +95,16 @@ export class GameScreenView implements View {
 		tweenOnFinish();
 	}
 
-	// destroy monster visual and its tween
+	// Destroy monster visual and its tween
 	public destroyMonsterVisual(monsterId: number): void {
 		const monster = this.monsterVisuals.get(monsterId);
 		const tween = this.monsterTweens.get(monsterId);
-		
+
 		if (tween) {
-			tween.destroy();  // Stop and destroy the tween
+			tween.destroy(); // Stop and destroy the tween
 			this.monsterTweens.delete(monsterId);
 		}
-		
+
 		if (monster) {
 			monster.destroy();
 			this.monsterVisuals.delete(monsterId);
@@ -119,18 +122,18 @@ export class GameScreenView implements View {
 		this.colorTween.play();
 	}
 
-	// pause monster animations
+	// Pause monster animations
 	public pauseAllMonsters(): void {
-		this.monsterTweens.forEach((tween) => {
+		for (const tween of this.monsterTweens.values()) {
 			tween.pause();
-		});
+		}
 	}
 
-	// resume monster animations
+	// Resume monster animations
 	public resumeAllMonsters(): void {
-		this.monsterTweens.forEach((tween) => {
+		for (const tween of this.monsterTweens.values()) {
 			tween.play();
-		});
+		}
 	}
 
 	public updateHealth(newHealth: number): void {
@@ -144,11 +147,11 @@ export class GameScreenView implements View {
 	public updateQuestionPrompt(questionText: string): void {
 		// Update the Konva text element
 		this.questionPrompt.text(questionText);
-		
-		const questionElement = document.getElementById('question-prompt');
+
+		const questionElement = document.querySelector('#question-prompt');
 		if (questionElement) {
 			questionElement.textContent = questionText;
-    	}
+		}
 	}
 
 	private initializeView(): void {

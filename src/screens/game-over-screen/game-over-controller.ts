@@ -1,5 +1,4 @@
-import {ScreenController} from '../../types.ts';
-import type {View, ScreenSwitcher} from '../../types.ts';
+import {ScreenController, type View, type ScreenSwitcher} from '../../types.ts';
 import {GameOverView} from './game-over-view.ts';
 
 export class GameOverController extends ScreenController {
@@ -27,10 +26,14 @@ export class GameOverController extends ScreenController {
 	 */
 	public showGameOver(finalRound: number): void {
 		this.view.setFinalRound(finalRound);
-		
+
 		this.view.setButtonHandlers(
-			() => this.onPlayAgain(),
-			() => this.onReturnHome()
+			() => {
+				this.onPlayAgain();
+			},
+			() => {
+				this.onReturnHome();
+			},
 		);
 
 		this.show();

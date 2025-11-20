@@ -21,7 +21,7 @@
     "useUnknownInCatchVariables": true,
     "noImplicitOverride": true,
 
-    "erasableSyntaxOnly": true,
+    "erasableSyntaxOnly": false,
     "verbatimModuleSyntax": true
   },
   "include": ["src"]

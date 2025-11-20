@@ -38,8 +38,8 @@ export class GameOverView implements View {
 	 * Update the final score display
 	 */
 	public setFinalRound(round: number): void {
-		const roundText = this.group.findOne('.finalRound') as Konva.Text;
-		if (roundText) {
+		const roundText = this.group.findOne('.finalRound');
+		if (roundText && roundText instanceof Konva.Text) {
 			roundText.text(`You reached Round ${round}`);
 		}
 	}
@@ -52,7 +52,7 @@ export class GameOverView implements View {
 			width: stageWidth,
 			height: stageHeight,
 			fill: 'black',
-			opacity: 0.5, 
+			opacity: 0.5,
 		});
 		this.group.add(overlay);
 
@@ -103,7 +103,7 @@ export class GameOverView implements View {
 			stageWidth * 0.3,
 			60,
 			'Play Again',
-			'#6B8E4E' // Green from main menu
+			'#6B8E4E', // Green from main menu
 		);
 		this.group.add(this.playAgainButton);
 
@@ -114,7 +114,7 @@ export class GameOverView implements View {
 			stageWidth * 0.3,
 			60,
 			'Return Home',
-			'#B8A8D4' // Purple from main menu
+			'#B8A8D4', // Purple from main menu
 		);
 		this.group.add(this.homeButton);
 	}
@@ -125,7 +125,7 @@ export class GameOverView implements View {
 		width: number,
 		height: number,
 		text: string,
-		color: string
+		color: string,
 	): Konva.Group {
 		const buttonGroup = new Konva.Group({
 			x,
@@ -172,10 +172,9 @@ export class GameOverView implements View {
 
 	private lightenColor(color: string): string {
 		// Lighten colors on hover
-		const colorMap: Record<string, string> = {
-			'#6B8E4E': '#7FA05C', // Lighter green
-			'#B8A8D4': '#C8B8E4', // Lighter purple
-		};
+		const colorMap: Record<string, string> = {};
+		colorMap['#6B8E4E'] = '#7FA05C'; // Lighter green
+		colorMap['#B8A8D4'] = '#C8B8E4'; // Lighter purple
 		return colorMap[color] || color;
 	}
 }
