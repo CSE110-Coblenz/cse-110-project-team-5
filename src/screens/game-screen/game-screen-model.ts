@@ -2,26 +2,44 @@
  * GameScreenModel - Manages game state
  */
 export class GameScreenModel {
-	private score = 0;
+	private health = 100;
+	private currentQuestion = "YOU SHOULDN'T SEE THIS";
+	private currentAnswer = -999;
 
 	/**
 	 * Reset game state for a new game
 	 */
 	reset(): void {
-		this.score = 0;
+		this.health = 100;
+	}
+
+	public setQuestionAndAnswer(question: string, answer: number): void {
+		this.currentQuestion = question;
+		this.currentAnswer = answer;
+	}
+
+	public getQuestion(): string {
+		return this.currentQuestion;
+	}
+
+	public getAnswer(): number {
+		return this.currentAnswer;
 	}
 
 	/**
-	 * Increment score when lemon is clicked
+	 * Get current health
 	 */
-	incrementScore(): void {
-		this.score++;
+	getHealth(): number {
+		return this.health;
 	}
 
 	/**
-	 * Get current score
+	 * Decrease health when monster reaches the end
 	 */
-	getScore(): number {
-		return this.score;
+	decreaseHealth(amount: number): void {
+		this.health -= amount;
+		if (this.health < 0) {
+			this.health = 0;
+		}
 	}
 }
