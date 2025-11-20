@@ -236,9 +236,9 @@ export class GameScreenView implements View {
 	}
 
 	private createTowerVisuals(): void {
-		const towerY = stageHeight * 0.05;
-		const towerWidth = 450;
-		const towerHeight = 900;
+		const towerY = stageHeight * 0.10;
+		const towerWidth = 400;
+		const towerHeight = 800;
 		const towerX = stageWidth * 0.79;
 
 		/*
@@ -251,7 +251,7 @@ export class GameScreenView implements View {
 		});
 		*/
 
-		Konva.Image.fromURL('/gamescreen_images/tower2.png', (img) => {
+		Konva.Image.fromURL('/gamescreen_images/tower5.png', (img) => {
 			img.x(towerX);
 			img.y(towerY);
 			img.width(towerWidth);
