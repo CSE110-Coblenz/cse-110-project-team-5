@@ -4,12 +4,15 @@ import {Monster} from './monster.ts';
 
 export class MonsterManager {
 	private currentMonsters: Monster[] = [];
+	private readonly monstersPerRound: number;
 	private readonly spawnedMonsterIds = new Set<number>();
 	// Private readonly monstersPerRound: number;
 	private nextMonsterId = 0;
 	private aliveCount = 0;
 
-	constructor(private readonly monstersPerRound: number) {}
+	constructor(monstersPerRound: number) {
+		this.monstersPerRound = monstersPerRound;
+	}
 
 	// Spawn monsters at the start of each round
 	public spawnMonsters(): void {

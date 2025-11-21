@@ -3,14 +3,15 @@
 export class Monster {
 	public readonly question: string;
 	public readonly answer: number;
+	public readonly id: number;
+	private speed: number;
 	private alive = true;
 	private pathProgress = 0; // 0.0 to 1.0
 
 	// Can change speed here in constructor to make monsters go faster/slower while testing
-	constructor(
-		public readonly id: number,
-		private speed = 2,
-	) {
+	constructor(id: number, speed = 2) {
+		this.id = id;
+		this.speed = speed;
 		// Generate question and answer for this monster
 		const randomValue = Math.floor(Math.random() * 10);
 		this.question = `the answer is ${randomValue}`;
