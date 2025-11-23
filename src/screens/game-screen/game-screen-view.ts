@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
+import {GameOverView} from '../game-over-screen/game-over-view.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
@@ -11,6 +12,8 @@ export class GameScreenView implements View {
 	private healthIndicator!: Konva.Text;
 	private questionPrompt!: Konva.Text;
 	private questionBar!: Konva.Rect;
+	private pauseButton!: Konva.Group;
+	private background!: Konva.Rect;
 	private pathDefinition = new Array<{x: number; y: number}>();
 	private colorTween: Konva.Tween | undefined;
 	private readonly monsterVisuals = new Map<number, Konva.Rect>(); // Maps monster IDs to their visuals
@@ -41,6 +44,10 @@ export class GameScreenView implements View {
 
 	getGroup(): Konva.Group {
 		return this.group;
+	}
+
+	public setButtonHandlers(onPause: () => void): void {
+		this.pauseButton.on('click tap', onPause);
 	}
 
 	// Spawn monster visual along path
@@ -154,6 +161,14 @@ export class GameScreenView implements View {
 		}
 	}
 
+	public updatePauseButton(isPaused: boolean): void {
+		(this.pauseButton.find('Text')[0] as Konva.Text).text(
+			isPaused ? 'Resume' : 'Pause',
+		);
+		this.background.fill(isPaused ? 'red' : '#6B8E23');
+		this.questionPrompt.fill(isPaused ? 'white' : 'black');
+	}
+
 	private initializeView(): void {
 		this.createBackground();
 		this.createPath();
@@ -163,14 +178,14 @@ export class GameScreenView implements View {
 	}
 
 	private createBackground(): void {
-		const bg = new Konva.Rect({
+		this.background = new Konva.Rect({
 			x: 0,
 			y: 0,
 			width: stageWidth,
 			height: stageHeight,
 			fill: '#6B8E23',
 		});
-		this.group.add(bg);
+		this.group.add(this.background);
 	}
 
 	private createPath(): void {
@@ -275,6 +290,16 @@ export class GameScreenView implements View {
 			fill: 'black',
 		});
 		this.group.add(this.questionPrompt);
+
+		this.pauseButton = GameOverView.createButton(
+			stageWidth * 0.93,
+			stageHeight * 0.95,
+			120,
+			50,
+			'Pause',
+			'#6B8E4E',
+		);
+		this.group.add(this.pauseButton);
 
 		const towerHeaderText = new Konva.Text({
 			x: stageWidth * 0.881,
