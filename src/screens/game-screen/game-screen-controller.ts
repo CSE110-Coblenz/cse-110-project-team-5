@@ -43,6 +43,16 @@ export class GameScreenController extends ScreenController {
 				this.resume();
 			}
 		});
+
+		this.view.setButtonHandlers(() => {
+			if (this.isPaused) {
+				this.resume();
+			} else {
+				this.pause();
+			}
+
+			this.view.updatePauseButton(this.isPaused);
+		});
 	}
 
 	// Allows controllers to communicate (game-screen -> game-over)
