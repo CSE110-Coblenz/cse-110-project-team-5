@@ -19,7 +19,7 @@ export class MenuScreenController extends ScreenController {
 				this.handleMiniClick();
 			},
 			onHelp: () => {
-				this.handleStartClick();
+				this.handleHelpClick();
 			},
 		});
 	}
@@ -37,5 +37,9 @@ export class MenuScreenController extends ScreenController {
 
 	private handleMiniClick(): void {
 		this.screenSwitcher.switchToScreen({type: 'minigame'});
+	}
+
+	private handleHelpClick(): void {
+		this.screenSwitcher.switchToScreen({type: 'help'});
 	}
 }
