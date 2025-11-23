@@ -121,7 +121,14 @@ export class MenuScreenView implements View {
 			return g;
 		};
 
-		const playBtn = makeButton('PLAY', startY, '#6E8E43', '#3E5B2C', onPlay);
+		const playBtn = makeButton(
+			'PLAY', 
+			startY, 
+			'#6E8E43', 
+			'#3E5B2C', 
+			onPlay
+		);
+
 		const miniBtn = makeButton(
 			'MINI GAME',
 			startY + buttonHeight + gap,
@@ -129,6 +136,7 @@ export class MenuScreenView implements View {
 			'#A65E17',
 			onMiniGame,
 		);
+		
 		const helpBtn = makeButton(
 			'HELP',
 			startY + 2 * (buttonHeight + gap),
