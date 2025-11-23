@@ -97,7 +97,7 @@ export class GameOverView implements View {
 		this.group.add(finalRoundText);
 
 		// Play Again button - green matching main menu
-		this.playAgainButton = this.createButton(
+		this.playAgainButton = GameOverView.createButton(
 			stageWidth * 0.35,
 			stageHeight * 0.52,
 			stageWidth * 0.3,
@@ -108,7 +108,7 @@ export class GameOverView implements View {
 		this.group.add(this.playAgainButton);
 
 		// Home button - purple matching main menu Help button
-		this.homeButton = this.createButton(
+		this.homeButton = GameOverView.createButton(
 			stageWidth * 0.35,
 			stageHeight * 0.62,
 			stageWidth * 0.3,
@@ -119,7 +119,7 @@ export class GameOverView implements View {
 		this.group.add(this.homeButton);
 	}
 
-	private createButton(
+	public static createButton(
 		x: number,
 		y: number,
 		width: number,
@@ -157,7 +157,7 @@ export class GameOverView implements View {
 		// Hover effects
 		buttonGroup.on('mouseenter', () => {
 			document.body.style.cursor = 'pointer';
-			rect.fill(this.lightenColor(color));
+			rect.fill(GameOverView.lightenColor(color));
 			buttonGroup.getLayer()?.draw();
 		});
 
@@ -170,7 +170,7 @@ export class GameOverView implements View {
 		return buttonGroup;
 	}
 
-	private lightenColor(color: string): string {
+	private static lightenColor(color: string): string {
 		// Lighten colors on hover
 		const colorMap: Record<string, string> = {};
 		colorMap['#6B8E4E'] = '#7FA05C'; // Lighter green
