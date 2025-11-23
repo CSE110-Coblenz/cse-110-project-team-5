@@ -6,7 +6,7 @@ type HelpCallbacks = {
 	onBack: () => void;
 };
 
-//Tutorial type
+// Tutorial type
 type TutorialStep = {
 	x: number;
 	y: number;
@@ -16,69 +16,69 @@ type TutorialStep = {
 export class HelpScreenView implements View {
 	private readonly group: Konva.Group;
 
-	//Tutorial Steps 
-	private currentStep = 0; 
+	// Tutorial Steps
+	private currentStep = 0;
 	private readonly steps: TutorialStep[];
 
-	//Bubble UI creation
+	// Bubble UI creation
 	private bubbleGroup!: Konva.Group;
 	private bubbleRect!: Konva.Rect;
 	private bubbleText!: Konva.Text;
 
-	//creates whole help screen
+	// Creates whole help screen
 	constructor({onBack}: HelpCallbacks) {
-		this.group = new Konva.Group({visible: false}); //root group
+		this.group = new Konva.Group({visible: false}); // Root group
 
-		// Steps of the tutorial 
+		// Steps of the tutorial
 		this.steps = [
 			{
 				x: stageWidth * 0.4,
 				y: stageHeight * 0.4,
-				text: 'Welcome! This quick tutorial will teach you how to play.'
+				text: 'Welcome! This quick tutorial will teach you how to play.',
 			},
 			{
-				x: stageWidth * 0.30,
+				x: stageWidth * 0.3,
 				y: stageHeight * 0.1,
-				text: 'At the top is your question bar. Solve each math question quickly!'
+				text: 'At the top is your question bar. Solve each math question quickly!',
 			},
 			{
 				x: stageWidth * 0.02,
 				y: stageHeight * 0.1,
-				text: 'Your health and round number is shown here.'
+				text: 'Your health and round number is shown here.',
 			},
 			{
-				x: stageWidth * 0.10,
+				x: stageWidth * 0.1,
 				y: stageHeight * 0.4,
-				text: 'This is a monster, they walk along this path toward your tower.'
+				text: 'This is a monster, they walk along this path toward your tower.',
 			},
 			{
 				x: stageWidth * 0.65,
 				y: stageHeight * 0.6,
-				text: 'This is your tower. Protect it by answering questions correctly before a monster gets here!'
+				text: 'This is your tower. Protect it by answering questions correctly before a monster gets here!',
 			},
 			{
 				x: stageWidth * 0.4,
 				y: stageHeight * 0.9,
-				text: 'You type your answer in a box below the game screen.'
+				text: 'You type your answer in a box below the game screen.',
 			},
 			{
 				x: stageWidth * 0.7,
 				y: stageHeight * 0.9,
-				text: 'That’s the basics! Click Finish to return to the menu.'
+				text: 'That’s the basics! Click Finish to return to the menu.',
 			},
 		];
 
 		// Build the help screen
 		this.createBackground();
 		this.createPath();
-		this.createHUD();
+		this.createHud();
 		this.createTower();
 		this.createBubble();
 		this.createNextButton(onBack);
 		this.updateStep();
 	}
 
-	//View Methods (show/hide)
+	// View Methods (show/hide)
 	show(): void {
 		this.group.visible(true);
 		this.group.getLayer()?.draw();
@@ -93,7 +93,7 @@ export class HelpScreenView implements View {
 		return this.group;
 	}
 
-//Create Background
+	// Create Background
 	private createBackground(): void {
 		const bg = new Konva.Rect({
 			x: 0,
@@ -105,7 +105,7 @@ export class HelpScreenView implements View {
 		this.group.add(bg);
 	}
 
-//Create Path
+	// Create Path
 	private createPath(): void {
 		const pathDefinition = [
 			{x: 0, y: stageHeight * 0.27},
@@ -122,10 +122,10 @@ export class HelpScreenView implements View {
 			{x: stageWidth * 0.82, y: stageHeight * 0.73},
 		];
 
-		//flatten path into 2-d
-		const pathPoints = pathDefinition.flatMap(p => [p.x, p.y]);
-		
-		//draws path
+		// Flatten path into 2-d
+		const pathPoints = pathDefinition.flatMap((p) => [p.x, p.y]);
+
+		// Draws path
 		const path = new Konva.Line({
 			points: pathPoints,
 			stroke: '#8C8C8C',
@@ -136,7 +136,7 @@ export class HelpScreenView implements View {
 
 		this.group.add(path);
 
-		//Create One Monster
+		// Create One Monster
 		const monster = new Konva.Rect({
 			x: pathDefinition[3].x,
 			y: pathDefinition[3].y,
@@ -150,8 +150,8 @@ export class HelpScreenView implements View {
 		this.group.add(monster);
 	}
 
-	//Create green grass
-	private createHUD(): void {
+	// Create green grass
+	private createHud(): void {
 		const topLeftBar = new Konva.Rect({
 			x: stageWidth * 0.01,
 			y: stageHeight * 0.043,
@@ -161,7 +161,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(topLeftBar);
 
-		//Health text
+		// Health text
 		const healthIndicator = new Konva.Text({
 			x: stageWidth * 0.13,
 			y: stageHeight * 0.046,
@@ -172,7 +172,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(healthIndicator);
 
-		//Round text
+		// Round text
 		const roundIndicator = new Konva.Text({
 			x: stageWidth * 0.02,
 			y: stageHeight * 0.048,
@@ -183,7 +183,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(roundIndicator);
 
-		//Question bar
+		// Question bar
 		const questionBar = new Konva.Rect({
 			x: stageWidth * 0.275,
 			y: stageHeight * 0.043,
@@ -193,7 +193,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(questionBar);
 
-		//Question text
+		// Question text
 		const questionPrompt = new Konva.Text({
 			x: stageWidth * 0.283,
 			y: stageHeight * 0.047,
@@ -204,7 +204,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(questionPrompt);
 
-		//Tower ground area
+		// Tower ground area
 		const sideBar = new Konva.Rect({
 			x: stageWidth * 0.82,
 			y: 0,
@@ -214,7 +214,7 @@ export class HelpScreenView implements View {
 		});
 		this.group.add(sideBar);
 
-		//Tower text
+		// Tower text
 		const towerLabel = new Konva.Text({
 			x: stageWidth * 0.881,
 			y: stageHeight * 0.035,
@@ -226,7 +226,7 @@ export class HelpScreenView implements View {
 		this.group.add(towerLabel);
 	}
 
-	//Create Tower Image
+	// Create Tower Image
 	private createTower(): void {
 		const towerWidth = 400;
 		const towerHeight = 800;
@@ -242,12 +242,12 @@ export class HelpScreenView implements View {
 		});
 	}
 
-	//Create Bubble
+	// Create Bubble
 	private createBubble(): void {
 		this.bubbleGroup = new Konva.Group();
 		this.group.add(this.bubbleGroup);
 
-		//Rectangle bubble
+		// Rectangle bubble
 		this.bubbleRect = new Konva.Rect({
 			x: 0,
 			y: 0,
@@ -260,7 +260,7 @@ export class HelpScreenView implements View {
 			shadowBlur: 10,
 		});
 
-		//Bubble text
+		// Bubble text
 		this.bubbleText = new Konva.Text({
 			x: 16,
 			y: 16,
@@ -274,21 +274,21 @@ export class HelpScreenView implements View {
 		this.bubbleGroup.add(this.bubbleRect, this.bubbleText);
 	}
 
-	//Update Steps
+	// Update Steps
 	private updateStep(): void {
-		//current step
+		// Current step
 		const step = this.steps[this.currentStep];
 
-		//moves position
+		// Moves position
 		this.bubbleGroup.position({
 			x: step.x,
 			y: step.y,
 		});
 
-		//Gets text
+		// Gets text
 		this.bubbleText.text(step.text);
 
-		//Resize bubble to fit text
+		// Resize bubble to fit text
 		const padding = 20;
 		const textWidth = this.bubbleText.width();
 		const textHeight = this.bubbleText.height();
@@ -298,18 +298,18 @@ export class HelpScreenView implements View {
 		this.group.getLayer()?.batchDraw();
 	}
 
-	//Next Button
+	// Next Button
 	private createNextButton(onBack: () => void): void {
 		const btnWidth = 200;
 		const btnHeight = 70;
 
-		//Group containing next button
+		// Group containing next button
 		const btn = new Konva.Group({
 			x: stageWidth - btnWidth - 40,
 			y: stageHeight - btnHeight - 40,
 		});
 
-		//Button rectangle
+		// Button rectangle
 		const rect = new Konva.Rect({
 			width: btnWidth,
 			height: btnHeight,
@@ -317,7 +317,7 @@ export class HelpScreenView implements View {
 			cornerRadius: 12,
 		});
 
-		//Button Label
+		// Button Label
 		const label = new Konva.Text({
 			width: btnWidth,
 			height: btnHeight,
@@ -336,16 +336,15 @@ export class HelpScreenView implements View {
 				this.currentStep++;
 				this.updateStep();
 
-				//last step change button to finish
+				// Last step change button to finish
 				if (this.currentStep === this.steps.length - 1) {
 					label.text('Finish');
 				}
 			} else {
-                this.currentStep = 0;
+				this.currentStep = 0;
 				label.text('Next');
-	            this.updateStep();
+				this.updateStep();
 				onBack();
-                
 			}
 		});
 
