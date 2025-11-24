@@ -58,3 +58,36 @@ function lightenColor(color: string): string {
 	colorMap['#B8A8D4'] = '#C8B8E4'; // Lighter purple
 	return colorMap[color] || color;
 }
+
+export class Timer {
+	private readonly callback: () => void;
+	private remainingDuration: number;
+	private startTime: number;
+	private timeoutId: number;
+	private done: boolean;
+
+	constructor(callback: () => void, duration: number) {
+		this.callback = () => {
+			this.done = true;
+			callback();
+		};
+
+		this.remainingDuration = duration;
+		this.done = duration < 0;
+
+		this.startTime = Date.now();
+		this.timeoutId = setTimeout(this.callback, this.remainingDuration);
+	}
+
+	public pause(): void {
+		if (this.done) return;
+		clearTimeout(this.timeoutId);
+		this.remainingDuration -= Date.now() - this.startTime;
+	}
+
+	public resume(): void {
+		if (this.done) return;
+		this.startTime = Date.now();
+		this.timeoutId = setTimeout(this.callback, this.remainingDuration);
+	}
+}
