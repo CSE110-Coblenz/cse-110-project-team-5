@@ -5,6 +5,7 @@ export class Monster {
 	public readonly answer: number;
 	public readonly id: number;
 	private speed: number;
+	private baseSpeed: number;
 	private alive = true;
 	private pathProgress = 0; // 0.0 to 1.0
 
@@ -12,6 +13,7 @@ export class Monster {
 	constructor(id: number, speed = 2) {
 		this.id = id;
 		this.speed = speed;
+		this.baseSpeed = speed;
 		// Generate question and answer for this monster
 		const randomValue = Math.floor(Math.random() * 10);
 		this.question = `the answer is ${randomValue}`;
@@ -46,6 +48,12 @@ export class Monster {
 	// Sets the speed
 	setSpeed(speed: number): void {
 		this.speed = speed;
+		this.baseSpeed = speed; // Update base speed if set manually
+	}
+
+	// Apply a temporary speed modifier (e.g. from potion)
+	applySpeedModifier(multiplier: number): void {
+		this.speed = this.baseSpeed * multiplier;
 	}
 
 	// Gets a monster's question

@@ -1,3 +1,8 @@
+import {
+	type PotionManager,
+	potionDefinitions,
+	potionType,
+} from '../../models/potion-manager.ts';
 import {ScreenController, type ScreenSwitcher} from '../../types.ts';
 import {MinigameScreenModel} from './minigame-screen-model.ts';
 import {MinigameScreenView} from './minigame-screen-view.ts';
@@ -9,11 +14,13 @@ export class MinigameScreenController extends ScreenController {
 	private readonly model: MinigameScreenModel;
 	private readonly view: MinigameScreenView;
 	private readonly switcher: ScreenSwitcher;
+	private readonly potionManager: PotionManager;
 	private feedbackTimer: number | undefined;
 
-	constructor(switcher: ScreenSwitcher) {
+	constructor(switcher: ScreenSwitcher, potionManager: PotionManager) {
 		super();
 		this.switcher = switcher;
+		this.potionManager = potionManager;
 		this.model = new MinigameScreenModel();
 		this.view = new MinigameScreenView();
 		this.feedbackTimer = undefined;
@@ -31,6 +38,7 @@ export class MinigameScreenController extends ScreenController {
 	}
 
 	override show(): void {
+		this.model.reset(); // Start fresh when showing
 		this.refreshViewState();
 		super.show();
 	}
@@ -60,10 +68,39 @@ export class MinigameScreenController extends ScreenController {
 		);
 
 		this.feedbackTimer = globalThis.setTimeout(() => {
-			this.model.advanceQuestion();
-			this.refreshViewState();
-			this.feedbackTimer = undefined;
+			const hasNext = this.model.advanceQuestion();
+			if (hasNext) {
+				this.refreshViewState();
+				this.feedbackTimer = undefined;
+			} else {
+				this.finishMinigame();
+			}
 		}, 900);
+	}
+
+	private finishMinigame(): void {
+		let message = 'Game Over!';
+		let color = '#000000';
+
+		if (this.model.isWin()) {
+			const types = [potionType.timeSlow, potionType.heal];
+			const randomType = types[Math.floor(Math.random() * types.length)];
+			this.potionManager.addPotion(randomType);
+
+			const potionName = potionDefinitions[randomType].name;
+			message = `Success! Earned ${potionName}!`;
+			color = '#2E7D32';
+		} else {
+			message = 'Failed! Need 70% to win.';
+			color = '#B23A2F';
+		}
+
+		this.view.showFeedback(message, color);
+
+		// Delay before going back
+		this.feedbackTimer = globalThis.setTimeout(() => {
+			this.handleBackToMenu();
+		}, 2000);
 	}
 
 	private refreshViewState(): void {

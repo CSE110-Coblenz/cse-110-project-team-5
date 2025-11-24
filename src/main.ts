@@ -5,6 +5,7 @@ import {GameScreenController} from './screens/game-screen/game-screen-controller
 import {stageWidth, stageHeight} from './constants.ts';
 import {MinigameScreenController} from './screens/minigame-screen/minigame-screen-controller.ts';
 import {GameOverController} from './screens/game-over-screen/game-over-controller.ts';
+import {PotionManager} from './models/potion-manager.ts';
 
 /**
  * Main Application - Coordinates all screens
@@ -24,6 +25,7 @@ class App implements ScreenSwitcher {
 	private readonly gameController: GameScreenController;
 	private readonly minigameController: MinigameScreenController;
 	private readonly gameOverController: GameOverController;
+	private readonly potionManager: PotionManager;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -37,11 +39,16 @@ class App implements ScreenSwitcher {
 		this.layer = new Konva.Layer();
 		this.stage.add(this.layer);
 
+		this.potionManager = new PotionManager();
+
 		// Initialize all screen controllers
 		// Each controller manages a Model, View, and handles user interactions
 		this.menuController = new MenuScreenController(this);
-		this.gameController = new GameScreenController();
-		this.minigameController = new MinigameScreenController(this);
+		this.gameController = new GameScreenController(this.potionManager);
+		this.minigameController = new MinigameScreenController(
+			this,
+			this.potionManager,
+		);
 		this.gameOverController = new GameOverController();
 
 		// Connect game controller to game over controller

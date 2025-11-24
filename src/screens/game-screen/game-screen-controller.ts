@@ -3,6 +3,11 @@ import {
 	answerInputForm,
 	questionColorDuration,
 } from '../../constants.ts';
+import {
+	type PotionManager,
+	potionType,
+	type PotionType,
+} from '../../models/potion-manager.ts';
 import {ScreenController} from '../../types.ts';
 import {Timer} from '../../utils.ts';
 import {type GameOverController} from '../game-over-screen/game-over-controller.ts';
@@ -20,10 +25,12 @@ export class GameScreenController extends ScreenController {
 	private isPaused = false; // Game paused state
 	private spawnTimers: Timer[] = []; // Track spawn timeouts
 	private spawnedMonsterIds = new Set<number>(); // Set of currently spawned monster IDs
+	private readonly potionManager: PotionManager;
 
-	constructor() {
+	constructor(potionManager: PotionManager) {
 		super();
 
+		this.potionManager = potionManager;
 		this.model = new GameScreenModel();
 		this.view = new GameScreenView();
 
@@ -32,6 +39,17 @@ export class GameScreenController extends ScreenController {
 			if (this.isPaused) return;
 
 			this.handleAnswerSubmit();
+		});
+
+		globalThis.addEventListener('keydown', (event) => {
+			if (this.isPaused) return;
+			if (event.key.toLowerCase() === 'h') {
+				this.usePotion(potionType.heal);
+			}
+
+			if (event.key.toLowerCase() === 's') {
+				this.usePotion(potionType.timeSlow);
+			}
 		});
 
 		// Handles visibility change to pause/resume game
@@ -46,15 +64,47 @@ export class GameScreenController extends ScreenController {
 			}
 		});
 
-		this.view.setButtonHandlers(() => {
-			if (this.isPaused) {
-				this.resume();
-			} else {
-				this.pause();
-			}
+		this.view.setButtonHandlers(
+			() => {
+				if (this.isPaused) {
+					this.resume();
+				} else {
+					this.pause();
+				}
 
-			this.view.updatePauseButton(this.isPaused);
-		});
+				this.view.updatePauseButton(this.isPaused);
+			},
+			() => {
+				this.usePotion(potionType.heal);
+			},
+			() => {
+				this.usePotion(potionType.timeSlow);
+			},
+		);
+	}
+
+	public usePotion(type: PotionType): void {
+		if (type === potionType.heal && this.model.getHealth() >= 100) {
+			console.log('Health full, cannot use potion.');
+			this.view.updateQuestionPrompt('Health Full!');
+			setTimeout(() => {
+				this.updateCurrentQuestion();
+			}, 1500);
+			return;
+		}
+
+		if (this.potionManager.usePotion(type)) {
+			console.log(`Using potion: ${type}`);
+			this.updatePotionCounts();
+
+			if (type === potionType.heal) {
+				this.applyHeal();
+			} else if (type === potionType.timeSlow) {
+				this.applyTimeSlow();
+			}
+		} else {
+			console.log(`No potion available: ${type}`);
+		}
 	}
 
 	// Allows controllers to communicate (game-screen -> game-over)
@@ -73,6 +123,7 @@ export class GameScreenController extends ScreenController {
 		const initialHealth = this.model.getHealth();
 		this.view.updateHealth(initialHealth);
 		this.view.updateRound(this.model.getRound());
+		this.updatePotionCounts();
 
 		this.startRound();
 	}
@@ -147,6 +198,41 @@ export class GameScreenController extends ScreenController {
 		} else {
 			this.onAnswerFail();
 		}
+	}
+
+	private updatePotionCounts(): void {
+		const counts = this.potionManager.getCounts();
+		this.view.updatePotionCounts(
+			counts[potionType.heal],
+			counts[potionType.timeSlow],
+		);
+	}
+
+	private applyHeal(): void {
+		this.model.increaseHealth(20);
+		this.view.updateHealth(this.model.getHealth());
+		this.view.updateQuestionPrompt('Healed 20 Health!');
+
+		setTimeout(() => {
+			this.updateCurrentQuestion();
+		}, 1500);
+	}
+
+	private applyTimeSlow(): void {
+		const monsters = this.model.getMonsterManager().getMonsters();
+		for (const monster of monsters) {
+			monster.applySpeedModifier(5); // Super slow (20% speed)
+		}
+
+		this.view.updateQuestionPrompt('Time Slowed!');
+
+		setTimeout(() => {
+			for (const monster of monsters) {
+				monster.applySpeedModifier(1);
+			}
+
+			this.updateCurrentQuestion();
+		}, 5000);
 	}
 
 	private onAnswerSuccess(monsterId: number): void {
