@@ -34,7 +34,7 @@ export class GameScreenModel {
 	 */
 	startRound(): void {
 		this.monsterManager.resetSpawnedTracking();
-		this.monsterManager.spawnMonsters();
+		this.monsterManager.spawnMonsters(this.round);
 	}
 
 	/**
