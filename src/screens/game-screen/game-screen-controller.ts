@@ -36,10 +36,12 @@ export class GameScreenController extends ScreenController {
 
 		// Handles visibility change to pause/resume game
 		// ensures that visuals are smooth if player leaves the tab
+		let pausedBeforeVisibitlityChange = false;
 		document.addEventListener('visibilitychange', () => {
 			if (document.hidden) {
+				pausedBeforeVisibitlityChange = this.isPaused;
 				this.pause();
-			} else {
+			} else if (!pausedBeforeVisibitlityChange) {
 				this.resume();
 			}
 		});
