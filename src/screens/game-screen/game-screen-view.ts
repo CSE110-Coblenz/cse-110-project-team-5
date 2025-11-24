@@ -252,9 +252,9 @@ export class GameScreenView implements View {
 
 		const towerHeader = new Konva.Rect({
 			x: stageWidth * 0.84,
-			y: stageHeight * 0.03,
+			y: stageHeight * 0.043,
 			width: stageWidth * 0.14,
-			height: stageHeight * 0.055,
+			height: 54,
 			fill: '#C49A6C',
 		});
 		this.group.add(towerHeader);
@@ -292,18 +292,18 @@ export class GameScreenView implements View {
 		this.group.add(this.questionPrompt);
 
 		this.pauseButton = createButton(
-			stageWidth * 0.93,
-			stageHeight * 0.95,
+			stageWidth * 0.725,
+			stageHeight * 0.043,
 			120,
-			50,
+			53,
 			'Pause',
-			'#6B8E4E',
+			'#B8A8D4',
 		);
 		this.group.add(this.pauseButton);
 
 		const towerHeaderText = new Konva.Text({
 			x: stageWidth * 0.881,
-			y: stageHeight * 0.035,
+			y: stageHeight * 0.047,
 			text: 'Tower',
 			fontSize: 51,
 			fontFamily: 'Jersey 10',
