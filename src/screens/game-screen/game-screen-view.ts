@@ -1,7 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight, answerInputForm} from '../../constants.ts';
-import {GameOverView} from '../game-over-screen/game-over-view.ts';
+import {createButton} from '../../utils.ts';
 
 /**
  * GameScreenView - Renders the game UI using Konva
@@ -291,7 +291,7 @@ export class GameScreenView implements View {
 		});
 		this.group.add(this.questionPrompt);
 
-		this.pauseButton = GameOverView.createButton(
+		this.pauseButton = createButton(
 			stageWidth * 0.93,
 			stageHeight * 0.95,
 			120,

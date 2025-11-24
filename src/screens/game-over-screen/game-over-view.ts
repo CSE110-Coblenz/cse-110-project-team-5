@@ -1,6 +1,7 @@
 import Konva from 'konva';
 import type {View} from '../../types.ts';
 import {stageWidth, stageHeight} from '../../constants.ts';
+import {createButton} from '../../utils.ts';
 
 export class GameOverView implements View {
 	private readonly group: Konva.Group;
@@ -97,7 +98,7 @@ export class GameOverView implements View {
 		this.group.add(finalRoundText);
 
 		// Play Again button - green matching main menu
-		this.playAgainButton = GameOverView.createButton(
+		this.playAgainButton = createButton(
 			stageWidth * 0.35,
 			stageHeight * 0.52,
 			stageWidth * 0.3,
@@ -108,7 +109,7 @@ export class GameOverView implements View {
 		this.group.add(this.playAgainButton);
 
 		// Home button - purple matching main menu Help button
-		this.homeButton = GameOverView.createButton(
+		this.homeButton = createButton(
 			stageWidth * 0.35,
 			stageHeight * 0.62,
 			stageWidth * 0.3,
@@ -117,64 +118,5 @@ export class GameOverView implements View {
 			'#B8A8D4', // Purple from main menu
 		);
 		this.group.add(this.homeButton);
-	}
-
-	public static createButton(
-		x: number,
-		y: number,
-		width: number,
-		height: number,
-		text: string,
-		color: string,
-	): Konva.Group {
-		const buttonGroup = new Konva.Group({
-			x,
-			y,
-		});
-
-		const rect = new Konva.Rect({
-			width,
-			height,
-			fill: color,
-			cornerRadius: 15, // Slightly more rounded like main menu
-			stroke: '#5C3317', // Brown border like main menu buttons
-			strokeWidth: 3,
-		});
-
-		const label = new Konva.Text({
-			width,
-			height,
-			text,
-			fontSize: 36,
-			fontFamily: 'Jersey 10',
-			fill: '#2C1810', // Dark brown text like main menu
-			align: 'center',
-			verticalAlign: 'middle',
-		});
-
-		buttonGroup.add(rect, label);
-
-		// Hover effects
-		buttonGroup.on('mouseenter', () => {
-			document.body.style.cursor = 'pointer';
-			rect.fill(GameOverView.lightenColor(color));
-			buttonGroup.getLayer()?.draw();
-		});
-
-		buttonGroup.on('mouseleave', () => {
-			document.body.style.cursor = 'default';
-			rect.fill(color);
-			buttonGroup.getLayer()?.draw();
-		});
-
-		return buttonGroup;
-	}
-
-	private static lightenColor(color: string): string {
-		// Lighten colors on hover
-		const colorMap: Record<string, string> = {};
-		colorMap['#6B8E4E'] = '#7FA05C'; // Lighter green
-		colorMap['#B8A8D4'] = '#C8B8E4'; // Lighter purple
-		return colorMap[color] || color;
 	}
 }
