@@ -4,6 +4,7 @@ import {
 	questionColorDuration,
 } from '../../constants.ts';
 import {ScreenController} from '../../types.ts';
+import {Timer} from '../../utils.ts';
 import {type GameOverController} from '../game-over-screen/game-over-controller.ts';
 import {GameScreenModel} from './game-screen-model.ts';
 import {GameScreenView} from './game-screen-view.ts';
@@ -17,8 +18,7 @@ export class GameScreenController extends ScreenController {
 	private readonly view: GameScreenView;
 	private gameOverController?: GameOverController; // Reference to GameOverController
 	private isPaused = false; // Game paused state
-	private spawnTimeouts: number[] = []; // Track spawn timeouts
-	private pendingMonsterIds: number[] = []; // Queue of monster IDs to be spawned
+	private spawnTimers: Timer[] = []; // Track spawn timeouts
 	private spawnedMonsterIds = new Set<number>(); // Set of currently spawned monster IDs
 
 	constructor() {
@@ -65,8 +65,7 @@ export class GameScreenController extends ScreenController {
 	startGame(): void {
 		this.model = new GameScreenModel();
 		this.isPaused = false;
-		this.spawnTimeouts = [];
-		this.pendingMonsterIds = [];
+		this.spawnTimers = [];
 		this.spawnedMonsterIds = new Set();
 		this.view.setQuestionBoxColor('white', 0);
 		this.view.show();
@@ -92,14 +91,13 @@ export class GameScreenController extends ScreenController {
 		console.log('[CONTROLLER] Pausing game');
 		this.isPaused = true;
 
-		// Clear all pending spawn timeouts
-		for (const timeoutId of this.spawnTimeouts) clearTimeout(timeoutId);
-		this.spawnTimeouts = [];
+		// Pause all future monster spawns
+		for (const timer of this.spawnTimers) {
+			timer.pause();
+		}
 
 		// Pause all monster animations
 		this.view.pauseAllMonsters();
-
-		// This.view.showPauseOverlay();
 	}
 
 	// Resume game from pause
@@ -112,33 +110,10 @@ export class GameScreenController extends ScreenController {
 		// Resume all monster animations
 		this.view.resumeAllMonsters();
 
-		// Spawn all pending monsters with even spacing
-		if (this.pendingMonsterIds.length > 0) {
-			console.log(
-				`[CONTROLLER] Resuming ${this.pendingMonsterIds.length} pending spawns`,
-			);
-
-			for (const [index, monsterId] of this.pendingMonsterIds.entries()) {
-				const delay = index * this.spawnDelay;
-
-				const timeoutId = globalThis.setTimeout(() => {
-					if (!this.isPaused) {
-						this.spawnMonsterVisual(
-							monsterId,
-							this.model.getMonsterById(monsterId)?.getSpeed() ?? 1,
-						);
-						this.spawnedMonsterIds.add(monsterId);
-					}
-				}, delay);
-
-				this.spawnTimeouts.push(timeoutId);
-			}
-
-			// Clear pending since we've rescheduled them
-			this.pendingMonsterIds = [];
+		// Resume future monster spawns
+		for (const timer of this.spawnTimers) {
+			timer.resume();
 		}
-
-		// This.view.hidePauseOverlay();
 	}
 
 	// Toggle pause state
@@ -209,8 +184,7 @@ export class GameScreenController extends ScreenController {
 	private startRound(): void {
 		this.model.startRound();
 
-		this.spawnTimeouts = [];
-		this.pendingMonsterIds = [];
+		this.spawnTimers = [];
 		this.spawnedMonsterIds = new Set();
 
 		const monsters: Monster[] = this.model.getMonsterManager().getMonsters();
@@ -221,19 +195,13 @@ export class GameScreenController extends ScreenController {
 		// Spawn monsters with staggered delay
 		for (const [index, monster] of monsters.entries()) {
 			const delay: number = index * this.spawnDelay;
-			this.pendingMonsterIds.push(monster.id);
 
-			const timeoutId: number = globalThis.setTimeout(() => {
-				if (!this.isPaused) {
+			this.spawnTimers.push(
+				new Timer(() => {
 					this.spawnMonsterVisual(monster.id, monster.getSpeed());
 					this.spawnedMonsterIds.add(monster.id);
-					this.pendingMonsterIds = this.pendingMonsterIds.filter(
-						(id: number) => id !== monster.id,
-					);
-				}
-			}, delay);
-
-			this.spawnTimeouts.push(timeoutId);
+				}, delay),
+			);
 		}
 	}
 
