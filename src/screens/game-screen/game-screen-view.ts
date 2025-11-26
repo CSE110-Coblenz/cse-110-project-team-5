@@ -19,7 +19,7 @@ export class GameScreenView implements View {
 	private readonly monsterVisuals = new Map<number, Konva.Rect>(); // Maps monster IDs to their visuals
 	private readonly monsterTweens = new Map<number, Konva.Tween>(); // Maps monster IDs to their tweens
 	private healPotionButton!: Konva.Group;
-	private slowPotionButton!: Konva.Group;
+	private skipQuestionPotionButton!: Konva.Group;
 
 	constructor() {
 		this.group = new Konva.Group({visible: false});
@@ -51,7 +51,7 @@ export class GameScreenView implements View {
 	public setButtonHandlers(
 		onPause: () => void,
 		onHeal: () => void,
-		onSlow: () => void,
+		onSkip: () => void,
 	): void {
 		this.pauseButton.on('click tap', onPause);
 
@@ -63,11 +63,11 @@ export class GameScreenView implements View {
 			document.body.style.cursor = 'default';
 		});
 
-		this.slowPotionButton.on('click tap', onSlow);
-		this.slowPotionButton.on('mouseenter', () => {
+		this.skipQuestionPotionButton.on('click tap', onSkip);
+		this.skipQuestionPotionButton.on('mouseenter', () => {
 			document.body.style.cursor = 'pointer';
 		});
-		this.slowPotionButton.on('mouseleave', () => {
+		this.skipQuestionPotionButton.on('mouseleave', () => {
 			document.body.style.cursor = 'default';
 		});
 	}
@@ -191,15 +191,15 @@ export class GameScreenView implements View {
 		this.questionPrompt.fill(isPaused ? 'white' : 'black');
 	}
 
-	public updatePotionCounts(healCount: number, slowCount: number): void {
+	public updatePotionCounts(healCount: number, skipCount: number): void {
 		const healText = this.healPotionButton.findOne('Text')!;
 		if (healText) {
 			(healText as Konva.Text).text(`Heal x${healCount}`);
 		}
 
-		const slowText = this.slowPotionButton.findOne('Text')!;
-		if (slowText) {
-			(slowText as Konva.Text).text(`Slow x${slowCount}`);
+		const skipText = this.skipQuestionPotionButton.findOne('Text')!;
+		if (skipText) {
+			(skipText as Konva.Text).text(`Skip x${skipCount}`);
 		}
 
 		this.group.getLayer()?.batchDraw();
@@ -254,13 +254,13 @@ export class GameScreenView implements View {
 
 		this.group.add(this.healPotionButton);
 
-		// Time Slow Potion Button (Blue) - Placed below the tower
-		this.slowPotionButton = new Konva.Group({
+		// Skip Question Potion Button (Blue) - Placed below the tower
+		this.skipQuestionPotionButton = new Konva.Group({
 			x: stageWidth * 0.91, // Right side under tower
 			y: stageHeight * 0.88, // Below tower
 		});
 
-		const slowBg = new Konva.Rect({
+		const skipQuestionBg = new Konva.Rect({
 			width: 80,
 			height: 80,
 			fill: 'rgba(255, 255, 255, 0.2)',
@@ -269,29 +269,29 @@ export class GameScreenView implements View {
 			strokeWidth: 2,
 		});
 
-		this.slowPotionButton.add(slowBg);
+		this.skipQuestionPotionButton.add(skipQuestionBg);
 
 		Konva.Image.fromURL('/minigame_images/blue_potion.png', (img) => {
 			img.width(50);
 			img.height(50);
 			img.x(15); // Centered: (80 - 50) / 2
 			img.y(10);
-			this.slowPotionButton.add(img);
+			this.skipQuestionPotionButton.add(img);
 		});
 
-		const slowLabel = new Konva.Text({
+		const skipLabel = new Konva.Text({
 			x: 0,
 			y: 60,
-			text: 'Slow x0',
+			text: 'Skip x0',
 			fontSize: 16,
 			fontFamily: 'Jersey 10',
 			fill: 'white',
 			width: 80, // Match background width
 			align: 'center',
 		});
-		this.slowPotionButton.add(slowLabel);
+		this.skipQuestionPotionButton.add(skipLabel);
 
-		this.group.add(this.slowPotionButton);
+		this.group.add(this.skipQuestionPotionButton);
 	}
 
 	private createBackground(): void {

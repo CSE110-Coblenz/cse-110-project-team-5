@@ -83,7 +83,7 @@ export class MinigameScreenController extends ScreenController {
 		let color = '#000000';
 
 		if (this.model.isWin()) {
-			const types = [potionType.timeSlow, potionType.heal];
+			const types = [potionType.skipQuestion, potionType.heal];
 			const randomType = types[Math.floor(Math.random() * types.length)];
 			this.potionManager.addPotion(randomType);
 

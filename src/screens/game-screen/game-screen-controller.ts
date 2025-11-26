@@ -48,7 +48,7 @@ export class GameScreenController extends ScreenController {
 			}
 
 			if (event.key.toLowerCase() === 's') {
-				this.usePotion(potionType.timeSlow);
+				this.usePotion(potionType.skipQuestion);
 			}
 		});
 
@@ -78,7 +78,7 @@ export class GameScreenController extends ScreenController {
 				this.usePotion(potionType.heal);
 			},
 			() => {
-				this.usePotion(potionType.timeSlow);
+				this.usePotion(potionType.skipQuestion);
 			},
 		);
 	}
@@ -99,8 +99,8 @@ export class GameScreenController extends ScreenController {
 
 			if (type === potionType.heal) {
 				this.applyHeal();
-			} else if (type === potionType.timeSlow) {
-				this.applyTimeSlow();
+			} else if (type === potionType.skipQuestion) {
+				this.applySkipQuestion();
 			}
 		} else {
 			console.log(`No potion available: ${type}`);
@@ -204,7 +204,7 @@ export class GameScreenController extends ScreenController {
 		const counts = this.potionManager.getCounts();
 		this.view.updatePotionCounts(
 			counts[potionType.heal],
-			counts[potionType.timeSlow],
+			counts[potionType.skipQuestion],
 		);
 	}
 
@@ -218,21 +218,20 @@ export class GameScreenController extends ScreenController {
 		}, 1500);
 	}
 
-	private applyTimeSlow(): void {
-		const monsters = this.model.getMonsterManager().getMonsters();
-		for (const monster of monsters) {
-			monster.applySpeedModifier(5); // Super slow (20% speed)
+	private applySkipQuestion(): void {
+		const currentMonster = this.model.getCurrentActiveMonster();
+		if (currentMonster) {
+			this.onAnswerSuccess(currentMonster.id);
+			this.view.updateQuestionPrompt('Skipped Question!');
+		} else {
+			// If no monster is active (e.g. between spawns), just acknowledge usage
+			this.view.updateQuestionPrompt('Skipped!');
 		}
 
-		this.view.updateQuestionPrompt('Time Slowed!');
-
+		// Briefly show the message then update to the next question
 		setTimeout(() => {
-			for (const monster of monsters) {
-				monster.applySpeedModifier(1);
-			}
-
 			this.updateCurrentQuestion();
-		}, 5000);
+		}, 1500);
 	}
 
 	private onAnswerSuccess(monsterId: number): void {

@@ -1,5 +1,5 @@
 export const potionType = {
-	timeSlow: 'Time Slow Potion',
+	skipQuestion: 'Skip Question Potion',
 	heal: 'Heal Potion',
 } as const;
 
@@ -13,10 +13,10 @@ export type Potion = {
 };
 
 export const potionDefinitions: Record<PotionType, Omit<Potion, 'type'>> = {
-	[potionType.timeSlow]: {
-		name: 'Time Slow Potion',
-		description: 'Slows all enemies down by 50% for 5 seconds.',
-		image: '/minigame_images/blue_potion.png', // Using blue for slow
+	[potionType.skipQuestion]: {
+		name: 'Skip Question Potion',
+		description: 'Skips the current question and moves on to the next one.',
+		image: '/minigame_images/blue_potion.png', // Using blue for skip
 	},
 	[potionType.heal]: {
 		name: 'Heal Potion',
@@ -73,7 +73,7 @@ export class PotionManager {
 
 	getCounts(): Record<PotionType, number> {
 		const counts = {
-			[potionType.timeSlow]: 0,
+			[potionType.skipQuestion]: 0,
 			[potionType.heal]: 0,
 		};
 		for (const potion of this.inventory) {
