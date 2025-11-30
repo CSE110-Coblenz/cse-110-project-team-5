@@ -94,7 +94,7 @@ export class GameScreenView implements View {
 		this.monsterVisuals.set(monsterId, monster);
 
 		let index = 0;
-		const baseTotalDuration = 60; // Takes a monster 30s to traverse the whole path
+		const baseTotalDuration = 60; // Takes a monster 60s to traverse the whole path
 		let currentTween: Konva.Tween | undefined; // Track current tween
 
 		const tweenOnFinish = () => {
