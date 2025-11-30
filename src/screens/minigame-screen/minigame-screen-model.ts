@@ -26,6 +26,7 @@ export class MinigameScreenModel {
 	private readonly potions: Array<{url: string}>;
 	private score: number;
 	private questionNumber: number;
+	private correctAnswers: number;
 	private readonly rng: () => number;
 
 	constructor(rng: () => number = Math.random) {
@@ -41,7 +42,12 @@ export class MinigameScreenModel {
 		];
 		this.score = 0;
 		this.questionNumber = 1;
+		this.correctAnswers = 0;
 		this.generateNewQuestion();
+	}
+
+	getMaxQuestions(): number {
+		return 10;
 	}
 
 	getState(): MinigameViewState {
@@ -65,6 +71,7 @@ export class MinigameScreenModel {
 
 		if (isCorrect) {
 			this.score += 10;
+			this.correctAnswers++;
 		} else {
 			this.score = Math.max(0, this.score - 5);
 		}
@@ -77,14 +84,24 @@ export class MinigameScreenModel {
 		};
 	}
 
-	advanceQuestion(): void {
+	advanceQuestion(): boolean {
+		if (this.questionNumber >= this.getMaxQuestions()) {
+			return false; // Game over
+		}
+
 		this.questionNumber += 1;
 		this.generateNewQuestion();
+		return true;
+	}
+
+	isWin(): boolean {
+		return this.correctAnswers / this.getMaxQuestions() >= 0.7;
 	}
 
 	reset(): void {
 		this.score = 0;
 		this.questionNumber = 1;
+		this.correctAnswers = 0;
 		this.generateNewQuestion();
 	}
 

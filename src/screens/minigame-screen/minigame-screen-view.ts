@@ -256,7 +256,7 @@ export class MinigameScreenView implements View {
 
 		this.feedbackText.width(hudWidth - 40);
 		this.feedbackText.position({
-			x: hudX + 20,
+			x: hudX + 100,
 			y: this.questionValueText.y() - 20,
 		});
 		this.feedbackText.offsetX(0);

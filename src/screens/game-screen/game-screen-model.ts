@@ -76,6 +76,16 @@ export class GameScreenModel {
 	}
 
 	/**
+	 * Increase health (e.g. potion)
+	 */
+	increaseHealth(amount: number): void {
+		this.health += amount;
+		if (this.health > 100) {
+			this.health = 100;
+		}
+	}
+
+	/**
 	 * Check if game is over
 	 */
 	isGameOver(): boolean {
