@@ -6,7 +6,11 @@ export type View = {
 	hide(): void;
 };
 
-export type Screen = {type: 'menu'} | {type: 'game'} | {type: 'minigame'};
+export type Screen =
+	| {type: 'menu'}
+	| {type: 'game'}
+	| {type: 'minigame'}
+	| {type: 'help'};
 
 export abstract class ScreenController {
 	show(): void {
