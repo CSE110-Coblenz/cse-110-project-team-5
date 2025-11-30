@@ -10,14 +10,13 @@ export class Monster {
 	private pathProgress = 0; // 0.0 to 1.0
 
 	// Can change speed here in constructor to make monsters go faster/slower while testing
-	constructor(id: number, speed = 2) {
+	constructor(id: number, round: number, speed = 2) {
 		this.id = id;
 		this.speed = speed;
-		this.baseSpeed = speed;
-		// Generate question and answer for this monster
-		const randomValue = Math.floor(Math.random() * 10);
-		this.question = `the answer is ${randomValue}`;
-		this.answer = randomValue;
+		// Generate question based on round number
+		const {question, answer} = this.generateQuestion(round);
+		this.question = question;
+		this.answer = answer;
 	}
 
 	// Checks if monster is alive
@@ -64,5 +63,51 @@ export class Monster {
 	// Gets a monster's answer
 	getAnswer(): number {
 		return this.answer;
+	}
+
+	// Generate algebraic equation based on round difficulty
+	private generateQuestion(round: number): {question: string; answer: number} {
+		const x = Math.floor(Math.random() * 20) + 1; // Answer is 1-20
+
+		if (round <= 3) {
+			// Rounds 1-3: Simple addition (x + a = b)
+			const a = Math.floor(Math.random() * 10) + 1;
+			const b = x + a;
+			return {question: `x + ${a} = ${b}`, answer: x};
+		}
+
+		if (round <= 6) {
+			// Rounds 4-6: Simple subtraction (x - a = b)
+			const a = Math.floor(Math.random() * x) + 1;
+			const b = x - a;
+			return {question: `x - ${a} = ${b}`, answer: x};
+		}
+
+		if (round <= 9) {
+			// Rounds 7-9: Simple multiplication (ax = b)
+			const a = Math.floor(Math.random() * 5) + 2; // 2-6
+			const xMult = Math.floor(Math.random() * 10) + 1;
+			const b = a * xMult;
+			return {question: `${a}x = ${b}`, answer: xMult};
+		}
+
+		// Round 10: Mix of all types
+		const type = Math.floor(Math.random() * 3);
+		if (type === 0) {
+			const a = Math.floor(Math.random() * 15) + 1;
+			const b = x + a;
+			return {question: `x + ${a} = ${b}`, answer: x};
+		}
+
+		if (type === 1) {
+			const a = Math.floor(Math.random() * x) + 1;
+			const b = x - a;
+			return {question: `x - ${a} = ${b}`, answer: x};
+		}
+
+		const a = Math.floor(Math.random() * 5) + 2;
+		const xMult = Math.floor(Math.random() * 10) + 1;
+		const b = a * xMult;
+		return {question: `${a}x = ${b}`, answer: xMult};
 	}
 }

@@ -15,11 +15,11 @@ export class MonsterManager {
 	}
 
 	// Spawn monsters at the start of each round
-	public spawnMonsters(): void {
+	public spawnMonsters(round: number): void {
 		this.currentMonsters = [];
 		this.spawnedMonsterIds.clear();
 		for (let i = 0; i < this.monstersPerRound; i++) {
-			const monster = new Monster(this.nextMonsterId++);
+			const monster = new Monster(this.nextMonsterId++, round);
 			this.currentMonsters.push(monster);
 		}
 

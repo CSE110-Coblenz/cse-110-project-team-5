@@ -45,6 +45,16 @@ export class GameOverView implements View {
 		}
 	}
 
+	/**
+	 * Set the title text (e.g., "GAME OVER" or "YOU WIN!")
+	 */
+	public setTitle(title: string): void {
+		const titleText = this.group.findOne('.titleText');
+		if (titleText && titleText instanceof Konva.Text) {
+			titleText.text(title);
+		}
+	}
+
 	private initializeView(): void {
 		// Translucent overlay - much more subtle
 		const overlay = new Konva.Rect({
@@ -80,6 +90,7 @@ export class GameOverView implements View {
 			fontFamily: 'Jersey 10',
 			fill: '#5C3317', // Dark brown
 			align: 'center',
+			name: 'titleText',
 		});
 		this.group.add(gameOverText);
 

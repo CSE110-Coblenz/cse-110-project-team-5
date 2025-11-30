@@ -25,6 +25,26 @@ export class GameOverController extends ScreenController {
 	 * Show game over screen with final round
 	 */
 	public showGameOver(finalRound: number): void {
+		this.view.setTitle('GAME OVER');
+		this.view.setFinalRound(finalRound);
+
+		this.view.setButtonHandlers(
+			() => {
+				this.onPlayAgain();
+			},
+			() => {
+				this.onReturnHome();
+			},
+		);
+
+		this.show();
+	}
+
+	/**
+	 * Show game win screen with final round
+	 */
+	public showGameWin(finalRound: number): void {
+		this.view.setTitle('YOU WIN!');
 		this.view.setFinalRound(finalRound);
 
 		this.view.setButtonHandlers(

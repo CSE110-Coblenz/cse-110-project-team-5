@@ -6,6 +6,7 @@ import {stageWidth, stageHeight} from './constants.ts';
 import {MinigameScreenController} from './screens/minigame-screen/minigame-screen-controller.ts';
 import {GameOverController} from './screens/game-over-screen/game-over-controller.ts';
 import {PotionManager} from './models/potion-manager.ts';
+import {HelpScreenController} from './screens/help-screen/help-screen-controller.ts';
 
 /**
  * Main Application - Coordinates all screens
@@ -26,6 +27,7 @@ class App implements ScreenSwitcher {
 	private readonly minigameController: MinigameScreenController;
 	private readonly gameOverController: GameOverController;
 	private readonly potionManager: PotionManager;
+	private readonly helpController: HelpScreenController;
 
 	constructor(container: string) {
 		// Initialize Konva stage (the main canvas)
@@ -50,6 +52,7 @@ class App implements ScreenSwitcher {
 			this.potionManager,
 		);
 		this.gameOverController = new GameOverController();
+		this.helpController = new HelpScreenController(this);
 
 		// Connect game controller to game over controller
 		this.gameController.setGameOverController(this.gameOverController);
@@ -61,6 +64,7 @@ class App implements ScreenSwitcher {
 		this.layer.add(this.gameController.getView().getGroup());
 		this.layer.add(this.minigameController.getView().getGroup());
 		this.layer.add(this.gameOverController.getView().getGroup());
+		this.layer.add(this.helpController.getView().getGroup());
 
 		// Draw the layer (render everything to the canvas)
 		this.layer.draw();
@@ -85,6 +89,7 @@ class App implements ScreenSwitcher {
 		this.gameController.hide();
 		this.minigameController.hide();
 		this.gameOverController.hide();
+		this.helpController.hide();
 
 		// Show the requested screen based on the screen type
 		switch (screen.type) {
@@ -101,6 +106,11 @@ class App implements ScreenSwitcher {
 
 			case 'minigame': {
 				this.minigameController.show();
+				break;
+			}
+
+			case 'help': {
+				this.helpController.show();
 				break;
 			}
 		}

@@ -321,6 +321,12 @@ export class GameScreenController extends ScreenController {
 	// Check if round is complete and proceed to next round
 	private checkRoundEnd(): void {
 		if (this.model.isRoundComplete()) {
+			// Check if player completed round 10 - win condition
+			if (this.model.getRound() >= 10) {
+				this.winGame();
+				return;
+			}
+
 			this.model.nextRound();
 			this.view.updateRound(this.model.getRound());
 
@@ -329,6 +335,15 @@ export class GameScreenController extends ScreenController {
 					this.startRound();
 				}
 			}, 1000);
+		}
+	}
+
+	private winGame(): void {
+		if (this.gameOverController) {
+			// Player won by completing round 10
+			this.gameOverController.showGameWin(this.model.getRound());
+		} else {
+			console.error('GameOverController not set!');
 		}
 	}
 
