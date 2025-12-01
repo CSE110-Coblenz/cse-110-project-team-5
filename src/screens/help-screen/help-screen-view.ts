@@ -25,6 +25,10 @@ export class HelpScreenView implements View {
 	private bubbleRect!: Konva.Rect;
 	private bubbleText!: Konva.Text;
 
+	// Potions
+	private healPotionButton!: Konva.Group;
+	private skipQuestionPotionButton!: Konva.Group;
+
 	// Creates whole help screen
 	constructor({onBack}: HelpCallbacks) {
 		this.group = new Konva.Group({visible: false}); // Root group
@@ -62,8 +66,13 @@ export class HelpScreenView implements View {
 				text: 'You type your answer in a box below the game screen.',
 			},
 			{
-				x: stageWidth * 0.7,
-				y: stageHeight * 0.9,
+				x: stageWidth * 0.75,
+				y: stageHeight * 0.8,
+				text: 'These are heal and skip potions to help you when your in trouble.',
+			},
+			{
+				x: stageWidth * 0.6,
+				y: stageHeight * 0.8,
 				text: 'That’s the basics! Click Finish to return to the menu.',
 			},
 		];
@@ -72,10 +81,12 @@ export class HelpScreenView implements View {
 		this.createBackground();
 		this.createPath();
 		this.createHud();
+		this.createPotion();
 		this.createTower();
 		this.createBubble();
 		this.createNextButton(onBack);
 		this.updateStep();
+
 	}
 
 	// View Methods (show/hide)
@@ -242,6 +253,88 @@ export class HelpScreenView implements View {
 		});
 	}
 
+	private createPotion(): void {
+			// Heal Potion Button (Red) - Placed below the tower
+			this.healPotionButton = new Konva.Group({
+				x: stageWidth * 0.85,
+				y: stageHeight * 0.88,
+			});
+	
+			const healBg = new Konva.Rect({
+				width: 80,
+				height: 80,
+				fill: 'rgba(255, 255, 255, 0.2)',
+				cornerRadius: 10,
+				stroke: '#E53935',
+				strokeWidth: 2,
+			});
+	
+			this.healPotionButton.add(healBg);
+	
+			Konva.Image.fromURL('/minigame_images/red_potion.png', (img) => {
+				img.width(50);
+				img.height(50);
+				img.x(15); // Centered: (80 - 50) / 2
+				img.y(10);
+				this.healPotionButton.add(img);
+			});
+	
+			const healLabel = new Konva.Text({
+				x: 0,
+				y: 60,
+				text: 'Heal x0',
+				fontSize: 16,
+				fontFamily: 'Jersey 10',
+				fill: 'white',
+				width: 80, // Match background width
+				align: 'center',
+			});
+			this.healPotionButton.add(healLabel);
+	
+			this.group.add(this.healPotionButton);
+	
+			// Skip Question Potion Button (Blue) - Placed below the tower
+			this.skipQuestionPotionButton = new Konva.Group({
+				x: stageWidth * 0.91, // Right side under tower
+				y: stageHeight * 0.88, // Below tower
+			});
+	
+			const skipQuestionBg = new Konva.Rect({
+				width: 80,
+				height: 80,
+				fill: 'rgba(255, 255, 255, 0.2)',
+				cornerRadius: 10,
+				stroke: '#1E88E5',
+				strokeWidth: 2,
+			});
+	
+			this.skipQuestionPotionButton.add(skipQuestionBg);
+	
+			Konva.Image.fromURL('/minigame_images/blue_potion.png', (img) => {
+				img.width(50);
+				img.height(50);
+				img.x(15); // Centered: (80 - 50) / 2
+				img.y(10);
+				this.skipQuestionPotionButton.add(img);
+			});
+	
+			const skipLabel = new Konva.Text({
+				x: 0,
+				y: 60,
+				text: 'Skip x0',
+				fontSize: 16,
+				fontFamily: 'Jersey 10',
+				fill: 'white',
+				width: 80, // Match background width
+				align: 'center',
+			});
+			this.skipQuestionPotionButton.add(skipLabel);
+	
+			this.group.add(this.skipQuestionPotionButton);
+		}
+
+
+	
 	// Create Bubble
 	private createBubble(): void {
 		this.bubbleGroup = new Konva.Group();
@@ -305,7 +398,7 @@ export class HelpScreenView implements View {
 
 		// Group containing next button
 		const btn = new Konva.Group({
-			x: stageWidth - btnWidth - 40,
+			x: stageWidth - btnWidth - 400,
 			y: stageHeight - btnHeight - 40,
 		});
 
