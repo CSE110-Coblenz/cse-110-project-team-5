@@ -348,6 +348,13 @@ export class HelpScreenView implements View {
 			}
 		});
 
+		btn.on('mouseenter', () => {
+			document.body.style.cursor = 'pointer';
+		});
+		btn.on('mouseleave', () => {
+			document.body.style.cursor = 'default';
+		});
+
 		this.group.add(btn);
 	}
 }
