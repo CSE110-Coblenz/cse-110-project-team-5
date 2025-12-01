@@ -1,9 +1,5 @@
 import {describe, it, expect, beforeEach, afterEach} from 'vitest';
-import {
-	PotionManager,
-	potionType,
-	type PotionType,
-} from '../src/models/potion-manager.ts';
+import {PotionManager, potionType} from '../src/models/potion-manager.ts';
 
 // Mock localStorage
 const localStorageMock = (() => {
