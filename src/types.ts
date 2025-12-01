@@ -1,29 +1,29 @@
-import type {Group} from 'konva/lib/Group';
+import type { Group } from "konva/lib/Group";
 
 export type View = {
-	getGroup(): Group;
-	show(): void;
-	hide(): void;
+  getGroup(): Group;
+  show(): void;
+  hide(): void;
 };
 
 export type Screen =
-	| {type: 'menu'}
-	| {type: 'game'}
-	| {type: 'minigame'}
-	| {type: 'help'};
+  | { type: "menu" }
+  | { type: "game" }
+  | { type: "minigame" }
+  | { type: "help" };
 
 export abstract class ScreenController {
-	show(): void {
-		this.getView().show();
-	}
+  show(): void {
+    this.getView().show();
+  }
 
-	hide(): void {
-		this.getView().hide();
-	}
+  hide(): void {
+    this.getView().hide();
+  }
 
-	abstract getView(): View;
+  abstract getView(): View;
 }
 
 export type ScreenSwitcher = {
-	switchToScreen(screen: Screen): void;
+  switchToScreen(screen: Screen): void;
 };

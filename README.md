@@ -6,7 +6,7 @@ A tower defense style educational game designed to help students improve their p
 
 Players defend against waves of enemies by solving pre-algebra problems correctly.
 
-**Target Audience:** Middle school students learning pre-algebra 
+**Target Audience:** Middle school students learning pre-algebra
 
 ## Features
 
@@ -15,29 +15,32 @@ Players defend against waves of enemies by solving pre-algebra problems correctl
 - Low-pressure mini-game to earn power-ups like healing potions and question skips
 - Interactive tutorial for new players
 
-
 ## How to install
 
 Clone the repository:
+
 ```bash
 git clone https://github.com/CSE110-Coblenz/cse-110-project-team-5.git
 ```
 
 Install dependencies:
+
 ```bash
 npm install
 ```
 
 Run the development server:
+
 ```bash
 npm run dev
 ```
 
 ## Team Members
-| Team member |
-|------|
-| Kile Hsu |
-| Nathan Tosoc |
-| David Li |
+
+| Team member         |
+| ------------------- |
+| Kile Hsu            |
+| Nathan Tosoc        |
+| David Li            |
 | AnMei Dasbach-Prisk |
-| Andrew Doan |
+| Andrew Doan         |
