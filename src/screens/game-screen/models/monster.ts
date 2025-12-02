@@ -59,7 +59,10 @@ export class Monster {
 	}
 
 	// Generate algebraic equation based on round difficulty
-	private generateQuestion(round: number): {question: string; answer: number} {
+	private generateQuestion(round: number): {
+		question: string;
+		answer: number;
+	} {
 		const x = Math.floor(Math.random() * 20) + 1; // Answer is 1-20
 
 		if (round <= 3) {

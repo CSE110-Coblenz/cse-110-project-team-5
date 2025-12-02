@@ -17,8 +17,10 @@ export class MinigameScreenView implements View {
 	private readonly answerGroups: Konva.Group[] = [];
 	private readonly answerRects: Konva.Rect[] = [];
 	private readonly answerTextNodes: Konva.Text[] = [];
-	private readonly answerBasePositions: Array<{rectY: number; textY: number}> =
-		[];
+	private readonly answerBasePositions: Array<{
+		rectY: number;
+		textY: number;
+	}> = [];
 
 	private readonly answerBaseFills = [
 		'#6E8E43',
