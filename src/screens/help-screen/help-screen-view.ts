@@ -48,12 +48,12 @@ export class HelpScreenView implements View {
 			{
 				x: stageWidth * 0.02,
 				y: stageHeight * 0.1,
-				text: 'Your health and round number is shown here.',
+				text: 'Your health and current round is shown here.',
 			},
 			{
 				x: stageWidth * 0.1,
 				y: stageHeight * 0.4,
-				text: 'This is a monster, they walk along this path toward your tower.',
+				text: 'This is a monster, they move along this path toward your tower.',
 			},
 			{
 				x: stageWidth * 0.65,
@@ -63,17 +63,17 @@ export class HelpScreenView implements View {
 			{
 				x: stageWidth * 0.4,
 				y: stageHeight * 0.9,
-				text: 'You type your answer in a box below the game screen.',
+				text: 'Type your answer in the box below the game screen.',
 			},
 			{
 				x: stageWidth * 0.75,
 				y: stageHeight * 0.8,
-				text: 'These are heal and skip potions to help you when your in trouble.',
+				text: 'Use the heal and skip potions to help you when you\'re in trouble.',
 			},
 			{
 				x: stageWidth * 0.6,
 				y: stageHeight * 0.8,
-				text: 'That’s the basics! Click Finish to return to the menu.',
+				text: 'That\'s the basics! Click Finish to return to the menu.',
 			},
 		];
 
