@@ -68,12 +68,12 @@ export class HelpScreenView implements View {
 			{
 				x: stageWidth * 0.75,
 				y: stageHeight * 0.8,
-				text: 'Use the heal and skip potions to help you when you\'re in trouble.',
+				text: "Use the heal and skip potions to help you when you're in trouble.",
 			},
 			{
 				x: stageWidth * 0.6,
 				y: stageHeight * 0.8,
-				text: 'That\'s the basics! Click Finish to return to the menu.',
+				text: "That's the basics! Click Finish to return to the menu.",
 			},
 		];
 
