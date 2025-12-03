@@ -1,7 +1,7 @@
 import {describe, it, expect, beforeEach, afterEach, vi} from 'vitest';
-import {PotionManager} from '../../models/potion-manager.ts';
-import {type ScreenSwitcher} from '../../types.ts';
-import {MinigameScreenController} from './minigame-screen-controller.ts';
+import {PotionManager} from '../src/models/potion-manager.ts';
+import {type ScreenSwitcher} from '../src/types.ts';
+import {MinigameScreenController} from '../src/screens/minigame-screen/minigame-screen-controller.ts';
 
 // Mock localStorage for Node.js environment
 const localStorageMock = (() => {
@@ -29,7 +29,7 @@ Object.defineProperty(globalThis, 'localStorage', {
 });
 
 // Mock the view to avoid Konva dependencies
-vi.mock('./minigame-screen-view.ts', () => {
+vi.mock('../src/screens/minigame-screen/minigame-screen-view.ts', () => {
 	return {
 		// eslint-disable-next-line @typescript-eslint/naming-convention
 		MinigameScreenView: class MockMinigameScreenView {
